@@ -23,7 +23,9 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
 ]
 
-LOCAL_APPS = []
+LOCAL_APPS = [
+    "apps.users.apps.UsersConfig",
+]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -37,6 +39,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+AUTH_USER_MODEL = "users.CustomUser"
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
@@ -114,3 +117,9 @@ MEDIA_ROOT = BASE_DIR / "mediafiles"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+    "BASE_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
