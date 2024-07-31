@@ -1,0 +1,477 @@
+openapi: 3.0.0
+info:
+  title: Company Structure API
+  description: Программное обеспечение для построения организационных диаграмм предназначено для оптимизации управления корпоративной структурой и обеспечения её наглядной визуализации. Решение разработано для поддержки компаний в эффективном управлении своими внутренними процессами, предлагая инструменты для создания, обновления и анализа организационной иерархии. ПО позволяет администраторам и пользователям легко отслеживать изменения в структуре, проводить анализ и планирование, а также способствовать улучшению коммуникации и прозрачности в организации. Использование этого программного обеспечения значительно упрощает процессы управления человеческими ресурсами, повышает оперативность принятия решений и способствует стратегическому планированию роста и реорганизации компании.
+  version: 1.0.0
+
+servers:
+  - url: https://api.company.com/v1
+    description: Основной сервер API
+tags:
+- name: "project"
+  description: "Everything about your project"
+- name: "employee"
+  description: "Everything about employee"
+- name: "directory"
+  description: "Operations about team, position and department"
+paths:
+  /projects:
+    get:
+      tags:
+        - "project"
+      description: ok
+      parameters:
+        - name: page
+          in: query
+          description: сраница пагинации
+          required: false
+          schema:
+            type: string
+        - name: count
+          in: query
+          description: кол-во записей
+          required: false
+          schema:
+            type: string
+      responses:
+        '200': 
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '401':
+          description: unauthorized
+        '404':
+          description: not found
+    post:
+      tags:
+        - "project"
+      description: создание проекта
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: ok
+        '401':
+          description: unauthorized
+        '400':
+          description: bad request 
+  /project/{id}:
+    get:
+      tags:
+        - "project"
+      description: запрос проекта по id
+      parameters:
+        - name: id
+          in: path
+          description: индетификатор проекта
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          description: unauthorized
+        '404':
+          description: not found
+    put:
+      tags:
+        - "project"
+      description: редактирование проекта
+      parameters:
+        - name: id
+          in: path
+          description: индетификатор проекта
+          required: true
+          schema:
+            type: integer
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: ok
+        '401':
+          description: unauthorized
+        '400':
+          description: bad request 
+    delete:
+      tags:
+        - "project"
+      description: редактирование проекта
+      parameters:
+        - name: id
+          in: path
+          description: индетификатор проекта
+          required: true
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: ok
+        '401':
+          description: unauthorized
+        '404':
+          description: user not found
+  /employees:
+    get:
+      tags:
+        - "employee"
+      description: список сотрудников
+      parameters:
+        - name: page
+          in: query
+          description: страница пагинации
+          required: false
+          schema:
+            type: string
+        - name: count
+          in: query
+          description: кол-во страниц
+          required: false
+          schema:
+            type: string
+        - name: sub_level
+          in: query
+          description: уровень подчинения (если не указан то 0)
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200': 
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+    post:
+      tags:
+        - "employee"
+      description: создание записи о новом сотруднике
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+  /employee/{id}:
+    get:
+      tags:
+        - "employee"
+      description: список сотрудников по идентификатору
+      parameters:
+        - name: id
+          in: path
+          description: идентификатор сотрудника
+          required: true
+          schema:
+            type: integer
+        - name: sub_level
+          in: query
+          description: уровень подчинения (если не указан то 0)
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Employee not found
+    put:
+      tags:
+        - "employee"
+      description: изменение информации о сотруднике
+      parameters:
+        - name: id
+          in: path
+          description: Employee identifier
+          required: true
+          schema:
+            type: integer
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Employee not found
+    delete:
+      tags:
+        - "employee"
+      description: удаление записи о сотруднике
+      parameters:
+        - name: id
+          in: path
+          description: Employee identifier
+          required: true
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: ok
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Employee not found
+  /directories:
+    get:
+      tags:
+        - "directory"
+      description: получение данных из справочника
+      parameters:
+        - name: type
+          in: query
+          description: тип данных в справочнике (команда, департамент, должность)
+          required: false
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: название (команды, департамента, должности)
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Directory'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - "directory"
+      description: создание новой записи в справочнике
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Directory'
+      responses:
+        '201':
+          description: ok
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+  /directory/{id}:
+    get:
+      tags:
+        - "directory"
+      description: Получение конкретной записи в справочнике по ID
+      parameters:
+        - name: id
+          in: path
+          description: Уникальный идентификатор записи в справочнике
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description:  ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Directory'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Directory entry not found
+    put:
+      tags:
+        - "directory"
+      description: Обновление конкретной записи в справочнике по ID
+      parameters:
+        - name: id
+          in: path
+          description: Уникальный идентификатор записи в справочнике
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Directory'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Directory'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Directory entry not found
+    delete:
+      tags:
+        - "directory"
+      description: Удаление конкретной записи в справочнике по ID
+      parameters:
+        - name: id
+          in: path
+          description: Уникальный идентификатор записи в справочнике
+          required: true
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: ok
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Directory entry not found        
+  /auth/login:
+    post:
+      description: аутентификация пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "user@company.com"
+                password:
+                  type: string
+                  format: password
+                  example: "securepassword123"
+      responses:
+        '201':
+          description: successful operation
+        '400':
+          description: bad request 
+        '401':
+          description: invalid username or password
+  /auth/logout:
+    post:
+      tags:
+        - "auth"
+      description: Выход из системы
+      responses:
+        '201':
+          description: successful operation
+        '401':
+          description: unauthorized
+components:
+  schemas:
+    Project:
+      type: object
+      properties: 
+        id:
+          type: integer
+          example: 15
+        name:
+          type: string
+          example: ВГДК-МУ-16
+        description:
+          type: string
+          example: о проекте
+        start_date:
+          type: string
+          format: date-time
+        end_date:
+          type: string
+          format: date-time
+    Employee:
+      type: object
+      properties:
+        employeeId:
+          type: integer
+        subordination:
+          type: object
+          properties:
+            bossId:
+              type: integer
+            subordinateId:
+              type: integer
+        attributes:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+    Directory:
+      type: object
+      properties:
+        directoryId:
+          type: integer
+          description: Уникальный идентификатор записи в справочнике
+        employeeId:
+          type: integer
+          description: Внешний ключ сотрудника
+        name:
+          type: string
+          description: Название (команды, департамента, должности)
+        type:
+          type: string
+          description: Тип (команда, департамент, должность)

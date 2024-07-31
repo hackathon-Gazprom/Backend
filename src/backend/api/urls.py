@@ -5,6 +5,8 @@ from rest_framework_simplejwt.views import (
     token_verify,
 )
 
+from .yasg import urlpatterns as doc_urls
+
 
 auth_url = [
     path("", token_obtain_pair, name="token_obtain_pair"),
@@ -16,3 +18,6 @@ urlpatterns = [
     path("v1/", include("api.v1.urls")),
     path("token/", include(auth_url)),
 ]
+
+
+urlpatterns += doc_urls

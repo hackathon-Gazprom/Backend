@@ -19,6 +19,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    "drf_yasg",
     "rest_framework",
     "rest_framework_simplejwt",
 ]
@@ -122,4 +123,17 @@ REST_FRAMEWORK = {
     "BASE_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+}
+
+SWAGGER_SETTINGS = {
+    "USE_SESSION_AUTH": False,
+    "SECURITY_DEFINITIONS": {
+        "Gazprom API": {
+            "type": "basic",
+            "name": "Authorization",
+            "tokenUrl": "/api/v1/token/",
+            "in": "header",
+            "flow": "accessToken",
+        },
+    },
 }
