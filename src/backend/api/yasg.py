@@ -18,7 +18,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path(
-        r"swagger/<format>$)",
+        r"swagger/<format>",
         schema_view.without_ui(cache_timeout=0),
         name="schema-json",
     ),
