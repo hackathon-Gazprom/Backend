@@ -1,6 +1,6 @@
 from .base import *  # noqa
 
-
+SECRET_KEY = "local"
 DEBUG = True
 
 DATABASES = {
