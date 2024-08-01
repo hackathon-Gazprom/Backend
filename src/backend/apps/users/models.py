@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import FileExtensionValidator, RegexValidator
 from django.db import models
 
-from .constants import RE_PHONE, IMAGE_ALLOWED_EXTENSIONS
+from .constants import IMAGE_ALLOWED_EXTENSIONS, RE_PHONE
 from .managers import CustomUserManager
 
 
