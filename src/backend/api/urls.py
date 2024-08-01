@@ -7,7 +7,6 @@ from rest_framework_simplejwt.views import (
 
 from .yasg import urlpatterns as doc_urls
 
-
 auth_url = [
     path("", token_obtain_pair, name="token_obtain_pair"),
     path("refresh/", token_refresh, name="token_refresh"),

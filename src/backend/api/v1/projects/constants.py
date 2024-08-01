@@ -1,0 +1,2 @@
+PROJECT_PAGE_SIZE = 12
+SUBORDINATES = "subordinates"
