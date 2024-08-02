@@ -19,6 +19,7 @@ User = get_user_model()
 
 class ProfileSerializer(serializers.ModelSerializer):
     """Сериалайзер профиля"""
+
     class Meta:
         model = Profile
         fields = ("phone", "telegram", "bio", "birthday", "time_zone")
@@ -26,6 +27,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """Сериалайзер пользователя"""
+
     profile = ProfileSerializer()
 
     class Meta:
@@ -42,6 +44,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserProfileUpdateSerializer(serializers.ModelSerializer):
     """Сериалайзер для обновления данных пользователя"""
+
     bio = serializers.CharField(source="profile.bio")
     birthday = serializers.DateField(source="profile.birthday")
     phone = serializers.CharField(source="profile.phone")
@@ -90,6 +93,7 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
 
 class UserCreateSerializer(serializers.ModelSerializer):
     """Сериалайзер создания пользователя"""
+
     password = serializers.CharField(
         style={"input_type": "password"}, write_only=True
     )
