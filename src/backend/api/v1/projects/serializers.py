@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
 
 from api.fields import Base64ImageField
@@ -16,10 +17,19 @@ class EmployeeSerializer(serializers.ModelSerializer):
     """Сериалайзер для отображения информации о работнике в дереве."""
 
     image = Base64ImageField(source="user.image")
+    subordinates = serializers.ListField(read_only=True)
+    without_parent = serializers.ListField(read_only=True)
 
     class Meta:
         model = Employee
-        fields = ("id", "user_id", "position", "image")
+        fields = (
+            "id",
+            "user_id",
+            "position",
+            "image",
+            "subordinates",
+            "without_parent",
+        )
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -75,7 +85,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         return instance
 
 
-class ProjectGetSerializer(serializers.ModelSerializer):
+class ProjectBaseSerializer(serializers.ModelSerializer):
     """Базовый сериалайзер проекта"""
 
     owner = serializers.CharField()
@@ -101,18 +111,19 @@ class ProjectGetSerializer(serializers.ModelSerializer):
         return obj.get_status_display()
 
 
-class ProjectListSerializer(ProjectGetSerializer):
+class ProjectListSerializer(ProjectBaseSerializer):
     """Сериалайзер для детального отображения информации."""
 
-    def get_employees(self, obj):
+    def get_employees(self, obj) -> int:
         return Employee.objects.filter(
             project=obj, user__is_active=True
         ).count()
 
 
-class ProjectDetailSerializer(ProjectGetSerializer):
+class ProjectDetailSerializer(ProjectBaseSerializer):
     """Сериалайзер для отображения списка."""
 
+    @swagger_serializer_method(serializer_or_field=EmployeeSerializer)
     def get_employees(self, obj):
         request = self.context.get("request")
         max_deep = request.query_params.get("deep", f"{MAX_DEEP_SUBORDINATES}")
@@ -134,9 +145,11 @@ class ProjectDetailSerializer(ProjectGetSerializer):
             "position",
             "user__image",
         )
+        return self.get_tree(children, supervisor, max_deep)
+
+    def get_tree(self, children, supervisor, max_deep):
         tree = defaultdict(list)
         nodes = defaultdict(list)
-
         for child in children:
             nodes[child.parent_id].append(child)
 
@@ -151,13 +164,11 @@ class ProjectDetailSerializer(ProjectGetSerializer):
                 )
             return subtree
 
-        for parent_id in (supervisor.id, None):
+        for parent_id in (supervisor.id, None):  # owner and non parent
             [
                 tree[parent_id].append(build_subtree(node, 0))
                 for node in nodes[parent_id]
             ]
-            # tree[supervisor.id].append(build_subtree(node))
-
         res = EmployeeSerializer(supervisor).data
         res[SUBORDINATES] = tree[supervisor.id]
         res[WITHOUT_PARENT] = tree[None]
