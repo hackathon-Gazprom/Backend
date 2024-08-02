@@ -6,9 +6,9 @@ from apps.projects.models import Employee, Project
 from .paginations import ProjectsPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
-    ProjectSerializer,
     ProjectDetailSerializer,
     ProjectListSerializer,
+    ProjectSerializer,
     ProjectStatusSerializer,
 )
 
