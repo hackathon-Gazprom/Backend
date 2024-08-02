@@ -22,8 +22,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
         fields = ("id", "user_id", "position", "image")
 
 
-class ProjectCreateSerializer(serializers.ModelSerializer):
-    """Сериалайзер для создания проекта."""
+class ProjectSerializer(serializers.ModelSerializer):
+    """Сериалайзер для создания и обновления проекта."""
 
     owner = serializers.CharField(read_only=True)
     status = serializers.ChoiceField(
@@ -58,8 +58,26 @@ class ProjectCreateSerializer(serializers.ModelSerializer):
         data["status"] = instance.get_status_display()
         return data
 
+    def update(self, instance, validated_data):
+        data = {
+            "name": validated_data.get("name"),
+            "description": validated_data.get("description"),
+        }
+        changed = False
+        for key, value in data.items():
+            if value is None:
+                continue
+            changed = True
+            setattr(instance, key, value)
+
+        if changed:
+            instance.save()
+        return instance
+
 
 class ProjectGetSerializer(serializers.ModelSerializer):
+    """Базовый сериалайзер проекта"""
+
     owner = serializers.CharField()
     status = serializers.SerializerMethodField()
     employees = serializers.SerializerMethodField()
@@ -147,9 +165,7 @@ class ProjectDetailSerializer(ProjectGetSerializer):
 
 
 class ProjectStatusSerializer(serializers.ModelSerializer):
+    """Сериалайзер для смены статуса"""
     class Meta:
         model = Project
         fields = ("id", "status")
-        swagger_auto_schema = {
-            "tags": ["projects"],
-        }

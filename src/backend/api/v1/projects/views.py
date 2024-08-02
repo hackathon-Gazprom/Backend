@@ -6,7 +6,7 @@ from apps.projects.models import Employee, Project
 from .paginations import ProjectsPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
-    ProjectCreateSerializer,
+    ProjectSerializer,
     ProjectDetailSerializer,
     ProjectListSerializer,
     ProjectStatusSerializer,
@@ -22,11 +22,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "retrieve":
             return ProjectDetailSerializer
-        elif self.action == "list":
-            return ProjectListSerializer
+        elif self.action in ("create", "partial_update", "update"):
+            return ProjectSerializer
         elif self.action == "change_status":
             return ProjectStatusSerializer
-        return ProjectCreateSerializer
+        return ProjectListSerializer
 
     def perform_create(self, serializer):
         instance = serializer.save(owner=self.request.user)
@@ -46,3 +46,5 @@ class ProjectViewSet(viewsets.ModelViewSet):
         data["status"] = instance.get_status_display()
 
         return Response(data)
+
+    # TODO: change owner
