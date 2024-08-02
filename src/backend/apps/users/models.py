@@ -7,7 +7,13 @@ from django.core.validators import (
 )
 from django.db import models
 
-from .constants import IMAGE_ALLOWED_EXTENSIONS, RE_PHONE
+from .constants import (
+    IMAGE_ALLOWED_EXTENSIONS,
+    RE_PHONE,
+    MAX_TIMEZONE,
+    MIN_TIMEZONE,
+    MAX_PHONE_LENGTH,
+)
 from .managers import CustomUserManager
 
 
@@ -40,17 +46,20 @@ class Profile(models.Model):
         "Часовой пояс",
         blank=True,
         default=3,
-        validators=[MinValueValidator(-12), MaxValueValidator(12)],
+        validators=[
+            MinValueValidator(MIN_TIMEZONE),
+            MaxValueValidator(MAX_TIMEZONE),
+        ],
     )
-    position = models.CharField(
-        "Должность", max_length=255, null=True, blank=True
-    )
+    # position = models.CharField(
+    #     "Должность", max_length=255, null=True, blank=True
+    # )
     telegram = models.CharField(
         "Telegram", max_length=255, blank=True, null=True
     )
     phone = models.CharField(
         "Телефон",
-        max_length=11,
+        max_length=MAX_PHONE_LENGTH,
         validators=[RegexValidator(RE_PHONE)],
         blank=True,
         null=True,
