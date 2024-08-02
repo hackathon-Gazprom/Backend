@@ -138,6 +138,7 @@ SWAGGER_SETTINGS = {
             "in": "header",
         },
     },
+    "DEFAULT_AUTO_SCHEMA_CLASS": "api.yasg.CustomAutoSchema",
 }
 
 SIMPLE_JWT = {
