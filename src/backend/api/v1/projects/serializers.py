@@ -1,4 +1,4 @@
-from itertools import groupby
+from collections import defaultdict
 
 from django.contrib.auth import get_user_model
 from django.utils import timezone
@@ -7,7 +7,7 @@ from rest_framework import serializers
 from api.fields import Base64ImageField
 from apps.projects.constants import GREATER_THAN_ENDED_DATE, LESS_THAN_TODAY
 from apps.projects.models import Employee, Project
-from .constants import SUBORDINATES
+from .constants import SUBORDINATES, WITHOUT_PARENT, MAX_DEEP_SUBORDINATES
 
 User = get_user_model()
 
@@ -19,7 +19,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ("id", "user_id", "image")
+        fields = ("id", "user_id", "position", "image")
 
 
 class ProjectCreateSerializer(serializers.ModelSerializer):
@@ -77,6 +77,7 @@ class ProjectGetSerializer(serializers.ModelSerializer):
             "ended",
         )
         read_only_fields = fields
+        swagger_schema_fields = {"tags": ["project"]}
 
     def get_status(self, obj):
         return obj.get_status_display()
@@ -91,10 +92,19 @@ class ProjectListSerializer(ProjectGetSerializer):
         ).count()
 
 
-class ProjectDetailSerializer(serializers.ModelSerializer):
+class ProjectDetailSerializer(ProjectGetSerializer):
     """Сериалайзер для отображения списка."""
 
     def get_employees(self, obj):
+        request = self.context.get("request")
+        max_deep = request.query_params.get("deep", f"{MAX_DEEP_SUBORDINATES}")
+        try:
+            max_deep = int(max_deep)
+        except ValueError:
+            max_deep = MAX_DEEP_SUBORDINATES
+        else:
+            max_deep = min(max(1, max_deep), MAX_DEEP_SUBORDINATES)
+
         supervisor = Employee.objects.get(project=obj, user=obj.owner)
         children = (
             Employee.objects.filter(project=obj, user__is_active=True)
@@ -103,32 +113,36 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
         ).only(
             "id",
             "user_id",
+            "position",
             "user__image",
         )
+        tree = defaultdict(list)
+        nodes = defaultdict(list)
 
-        data = {
-            i: list(g) for i, g in groupby(children, lambda c: c.parent_id)
-        }
+        for child in children:
+            nodes[child.parent_id].append(child)
+
+        def build_subtree(employee, deep=0):
+            subtree = EmployeeSerializer(employee).data
+            subtree[SUBORDINATES] = []
+            for child in nodes[employee.id]:
+                if deep + 1 >= max_deep:
+                    break
+                subtree[SUBORDINATES].append(
+                    build_subtree(child, deep=deep + 1)
+                )
+            return subtree
+
+        for parent_id in (supervisor.id, None):
+            [
+                tree[parent_id].append(build_subtree(node, 0))
+                for node in nodes[parent_id]
+            ]
+            # tree[supervisor.id].append(build_subtree(node))
+
         res = EmployeeSerializer(supervisor).data
-        res[SUBORDINATES] = []
-        max_deep = 6
-
-        def tree(parent_id, childs, deep=0):
-            if deep >= max_deep:
-                return
-            if parent_id in data:
-                for child in data[parent_id]:
-                    child_data = EmployeeSerializer(child).data
-                    childs.append(child_data)
-                    child_data[SUBORDINATES] = []
-                    tree(
-                        child.user_id,
-                        child_data[SUBORDINATES],
-                        deep + 1,
-                    )
-
-        tree(obj.owner.id, res[SUBORDINATES])
-
+        res[SUBORDINATES] = tree[supervisor.id]
+        res[WITHOUT_PARENT] = tree[None]
         return res
 
 
@@ -136,3 +150,6 @@ class ProjectStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ("id", "status")
+        swagger_auto_schema = {
+            "tags": ["projects"],
+        }

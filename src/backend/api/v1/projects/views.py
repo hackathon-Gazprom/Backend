@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from apps.projects.models import Employee, Project
+from .paginations import ProjectsPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
     ProjectCreateSerializer,
@@ -14,7 +15,9 @@ from .serializers import (
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
+    pagination_class = ProjectsPagination
     permission_classes = [OwnerOrAdminPermission]
+    swagger_tags = ["projects"]
 
     def get_serializer_class(self):
         if self.action == "retrieve":
@@ -28,7 +31,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         instance = serializer.save(owner=self.request.user)
         Employee.objects.get_or_create(
-            project=instance, user=self.request.user
+            project=instance,
+            user=self.request.user,
+            position="Руководитель проекта",
         )
 
     @action(detail=True, methods=["POST"])
