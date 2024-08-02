@@ -18,20 +18,30 @@ User = get_user_model()
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    """Сериалайзер профиля"""
     class Meta:
         model = Profile
         fields = ("phone", "telegram", "bio", "birthday", "time_zone")
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """Сериалайзер пользователя"""
     profile = ProfileSerializer()
 
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "middle_name", "image", "profile")
+        fields = (
+            "email",
+            "first_name",
+            "last_name",
+            "middle_name",
+            "image",
+            "profile",
+        )
 
 
 class UserProfileUpdateSerializer(serializers.ModelSerializer):
+    """Сериалайзер для обновления данных пользователя"""
     bio = serializers.CharField(source="profile.bio")
     birthday = serializers.DateField(source="profile.birthday")
     phone = serializers.CharField(source="profile.phone")
@@ -74,8 +84,12 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
             setattr(instance.profile, key, value)
         return super().update(instance, validated_data)
 
+    def to_representation(self, instance):
+        return UserSerializer(instance, context=self.context).data
+
 
 class UserCreateSerializer(serializers.ModelSerializer):
+    """Сериалайзер создания пользователя"""
     password = serializers.CharField(
         style={"input_type": "password"}, write_only=True
     )

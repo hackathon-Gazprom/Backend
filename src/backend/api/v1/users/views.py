@@ -13,7 +13,7 @@ from .serializers import (
 User = get_user_model()
 
 
-class UserUpdateView(
+class UserViewSet(
     generics.CreateAPIView, generics.RetrieveAPIView, viewsets.GenericViewSet
 ):
     queryset = User.objects.all()
