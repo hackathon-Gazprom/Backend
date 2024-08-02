@@ -1,0 +1,84 @@
+# flake8: noqa: E501
+import random
+from datetime import timedelta
+
+import pytest
+from django.utils import timezone
+
+from apps.projects.models import Project
+
+TAGS_COUNT = 3
+
+
+@pytest.fixture
+def password():
+    return "Qwwte7435ge!erty123"
+
+
+@pytest.fixture
+def admin_user(django_user_model, password):
+    user_data = {
+        "email": "admin@example.com",
+        "password": password,
+    }
+    return django_user_model.objects.create_superuser(**user_data)
+
+
+@pytest.fixture
+def user(django_user_model, password):
+    user_data = {
+        "email": "user@example.com",
+        "password": password,
+    }
+    return django_user_model.objects.create_user(**user_data)
+
+
+def client_force(user):
+    from rest_framework.test import APIClient
+    from rest_framework_simplejwt.tokens import RefreshToken
+
+    refresh = RefreshToken.for_user(user)
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
+    return client
+
+
+@pytest.fixture
+def admin_client(admin_user):
+    return client_force(admin_user)
+
+
+@pytest.fixture
+def user_client(user):
+    return client_force(user)
+
+
+@pytest.fixture
+def create_projects(create_users):
+    return Project.objects.bulk_create(
+        [
+            Project(
+                name=f"test_{i+1}",
+                started=timezone.now() + timedelta(days=random.randint(1, 14)),
+                ended=timezone.now()
+                + timedelta(
+                    days=random.randint(100, 140),
+                ),
+                owner=random.choice(create_users),
+            )
+            for i in range(20)
+        ]
+    )
+
+
+@pytest.fixture
+def create_users(django_user_model, password):
+    return django_user_model.objects.bulk_create(
+        [
+            django_user_model(
+                email=f"user_{i+1}@example.com",
+                password=password,
+            )
+            for i in range(15)
+        ]
+    )
