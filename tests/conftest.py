@@ -54,6 +54,17 @@ def user_client(user):
 
 
 @pytest.fixture
+def test_project(admin_user):
+    return Project.objects.create(
+        owner=admin_user,
+        name="test_project",
+        description="Description",
+        started=timezone.now().date(),
+        ended=timezone.now().date(),
+    )
+
+
+@pytest.fixture
 def create_projects(create_users):
     return Project.objects.bulk_create(
         [
