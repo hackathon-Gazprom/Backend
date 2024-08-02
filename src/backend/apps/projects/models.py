@@ -49,8 +49,13 @@ class Project(CreatedField):
 
 
 class Employee(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE, verbose_name="Проект"
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="Пользователь"
+    )
+    position = models.CharField("Должность", max_length=150, blank=True)
     parent = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,
@@ -64,7 +69,7 @@ class Employee(models.Model):
                 fields=["user", "project"], name="unique_employee"
             ),
             models.CheckConstraint(
-                check=~models.Q(user=models.F("parent")), name="unique_parent"
+                check=~models.Q(id=models.F("parent")), name="unique_parent"
             ),
         ]
         default_related_name = "employers"
@@ -72,4 +77,10 @@ class Employee(models.Model):
         verbose_name_plural = "Сотрудники"
 
     def __str__(self):
-        return f"{str(self.user)!r} на проекте {str(self.project)!r}"
+        return f"{self.user.email!r} на проекте {self.project.name!r}"
+
+    def clean(self):
+        if self.project_id != self.parent.project_id:
+            raise ValidationError(
+                "Связать сотрудников можно только с одного проекта."
+            )

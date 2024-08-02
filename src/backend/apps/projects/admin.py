@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin import display
 
 from .forms import ProjectForm
 from .models import Employee, Project
@@ -13,4 +14,11 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("id", "project", "position", "user", "parent_display")
+    list_display_links = ("id", "project", "user")
+    list_filter = ("project",)
+    search_fields = ("position", "user__email")
+
+    @display(description="Руководитель")
+    def parent_display(self, obj):
+        return obj.parent.user if obj.parent else None
