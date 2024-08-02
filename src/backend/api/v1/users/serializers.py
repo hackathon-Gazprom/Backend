@@ -6,10 +6,10 @@ from django.core import exceptions
 from rest_framework import serializers
 
 from api.v1.users.constants import (
-    TELEGRAM_PATTERN,
-    ERROR_TIMEZONE,
-    ERROR_TELEGRAM,
     ERROR_PHONE,
+    ERROR_TELEGRAM,
+    ERROR_TIMEZONE,
+    TELEGRAM_PATTERN,
 )
 from apps.users.constants import MAX_TIMEZONE, MIN_TIMEZONE, RE_PHONE
 from apps.users.models import Profile

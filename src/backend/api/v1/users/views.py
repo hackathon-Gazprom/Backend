@@ -1,13 +1,13 @@
 from django.contrib.auth import get_user_model
-from rest_framework import generics, viewsets, permissions
+from rest_framework import generics, permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .permissions import IsCurrentUserOrAdminPermission
 from .serializers import (
-    UserSerializer,
     UserCreateSerializer,
     UserProfileUpdateSerializer,
+    UserSerializer,
 )
 
 User = get_user_model()

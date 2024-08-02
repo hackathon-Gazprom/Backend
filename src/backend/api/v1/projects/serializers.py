@@ -7,7 +7,7 @@ from rest_framework import serializers
 from api.fields import Base64ImageField
 from apps.projects.constants import GREATER_THAN_ENDED_DATE, LESS_THAN_TODAY
 from apps.projects.models import Employee, Project
-from .constants import SUBORDINATES, WITHOUT_PARENT, MAX_DEEP_SUBORDINATES
+from .constants import MAX_DEEP_SUBORDINATES, SUBORDINATES, WITHOUT_PARENT
 
 User = get_user_model()
 
