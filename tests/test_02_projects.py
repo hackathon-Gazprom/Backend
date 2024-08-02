@@ -54,5 +54,6 @@ def test_update_project(admin_client, test_project):
     assert json_response["ended"] != new_data["ended"]
 
 
-# TODO: change status
-# TODO: change owner
+# TODO: check change status
+# TODO: check change owner
+# TODO: check change employer
