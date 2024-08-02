@@ -1,5 +1,10 @@
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import FileExtensionValidator, RegexValidator
+from django.core.validators import (
+    FileExtensionValidator,
+    RegexValidator,
+    MinValueValidator,
+    MaxValueValidator,
+)
 from django.db import models
 
 from .constants import IMAGE_ALLOWED_EXTENSIONS, RE_PHONE
@@ -30,6 +35,16 @@ class Profile(models.Model):
         CustomUser, on_delete=models.CASCADE, related_name="profile"
     )
     bio = models.TextField("О себе", blank=True)
+    birthday = models.DateField("День рождения", null=True, blank=True)
+    time_zone = models.SmallIntegerField(
+        "Часовой пояс",
+        blank=True,
+        default=3,
+        validators=[MinValueValidator(-12), MaxValueValidator(12)],
+    )
+    position = models.CharField(
+        "Должность", max_length=255, null=True, blank=True
+    )
     telegram = models.CharField(
         "Telegram", max_length=255, blank=True, null=True
     )
