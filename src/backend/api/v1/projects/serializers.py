@@ -166,6 +166,7 @@ class ProjectDetailSerializer(ProjectGetSerializer):
 
 class ProjectStatusSerializer(serializers.ModelSerializer):
     """Сериалайзер для смены статуса"""
+
     class Meta:
         model = Project
         fields = ("id", "status")
