@@ -1,18 +1,18 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import (
     FileExtensionValidator,
-    RegexValidator,
-    MinValueValidator,
     MaxValueValidator,
+    MinValueValidator,
+    RegexValidator,
 )
 from django.db import models
 
 from .constants import (
     IMAGE_ALLOWED_EXTENSIONS,
-    RE_PHONE,
+    MAX_PHONE_LENGTH,
     MAX_TIMEZONE,
     MIN_TIMEZONE,
-    MAX_PHONE_LENGTH,
+    RE_PHONE,
 )
 from .managers import CustomUserManager
 
