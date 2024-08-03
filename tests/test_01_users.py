@@ -1,4 +1,7 @@
+import os
+
 from rest_framework import status
+
 from tests.utils import USER_DATA, check_patch_me, check_user_response
 
 url_users = "/api/v1/users/"
@@ -73,3 +76,4 @@ def test_change_user_avatar(user_client, user):
     assert response.status_code == status.HTTP_200_OK
     user.refresh_from_db()
     assert user.image is not None
+    os.remove(user.image.path)
