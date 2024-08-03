@@ -1,5 +1,4 @@
 from rest_framework import status
-
 from tests.utils import USER_DATA, check_patch_me, check_user_response
 
 url_users = "/api/v1/users/"

@@ -5,10 +5,10 @@ from rest_framework.response import Response
 
 from .permissions import IsCurrentUserOrAdminPermission
 from .serializers import (
+    AvatarUserSerializer,
     UserCreateSerializer,
     UserProfileUpdateSerializer,
     UserSerializer,
-    AvatarUserSerializer,
 )
 
 User = get_user_model()
