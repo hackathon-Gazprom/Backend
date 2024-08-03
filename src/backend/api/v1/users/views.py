@@ -8,6 +8,7 @@ from .serializers import (
     UserCreateSerializer,
     UserProfileUpdateSerializer,
     UserSerializer,
+    AvatarUserSerializer,
 )
 
 User = get_user_model()
@@ -31,7 +32,7 @@ class UserViewSet(
             permission_classes = [IsCurrentUserOrAdminPermission]
         return [permission() for permission in permission_classes]
 
-    @action(detail=False, methods=["get", "patch"], url_path="me")
+    @action(detail=False, methods=["get", "patch"])
     def me(self, request):
         if request.method == "GET":
             return Response(UserSerializer(request.user).data)
@@ -39,6 +40,13 @@ class UserViewSet(
         serializer = UserProfileUpdateSerializer(
             request.user, data=request.data, partial=True
         )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    @action(detail=False, methods=["put", "patch"])
+    def avatar(self, request):
+        serializer = AvatarUserSerializer(request.user, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)

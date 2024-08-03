@@ -1,9 +1,11 @@
 from rest_framework import status
+
 from tests.utils import USER_DATA, check_patch_me, check_user_response
 
 url_users = "/api/v1/users/"
 url_user_by_id = "/api/v1/users/{id}/"
 url_me = "/api/v1/users/me/"
+url_avatar = "/api/v1/users/avatar/"
 
 
 def test_admin_create_user(admin_client):
@@ -60,3 +62,15 @@ def test_anonymous_user(client, user):
 
     response = client.get(url_user_by_id.format(id=user.id))
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+
+def test_change_user_avatar(user_client, user):
+    response = user_client.patch(
+        url_avatar,
+        data={
+            "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg=="
+        },
+    )
+    assert response.status_code == status.HTTP_200_OK
+    user.refresh_from_db()
+    assert user.image is not None

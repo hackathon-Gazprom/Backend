@@ -5,6 +5,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions
 from rest_framework import serializers
 
+from api.fields import Base64ImageField
 from api.v1.users.constants import (
     ERROR_PHONE,
     ERROR_TELEGRAM,
@@ -118,3 +119,11 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+
+
+class AvatarUserSerializer(serializers.ModelSerializer):
+    image = Base64ImageField()
+
+    class Meta:
+        model = User
+        fields = ("image",)
