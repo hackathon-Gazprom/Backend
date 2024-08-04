@@ -2,7 +2,7 @@ import os
 
 from rest_framework import status
 
-from tests.utils import USER_DATA, check_patch_me, check_user_response
+from .utils import USER_DATA, check_patch_me, check_user_response
 
 url_users = "/api/v1/users/"
 url_user_by_id = "/api/v1/users/{id}/"
