@@ -7,6 +7,7 @@ from apps.projects.models import Project
 
 url_projects = "/api/v1/projects/"
 url_project_by_id = "/api/v1/projects/{id}/"
+url_project_change_status_by_id = "/api/v1/projects/{id}/change_status/"
 
 
 @pytest.mark.usefixtures("create_projects")
@@ -54,6 +55,40 @@ def test_update_project(admin_client, test_project):
     assert json_response["ended"] != new_data["ended"]
 
 
-# TODO: check change status
-# TODO: check change owner
-# TODO: check change employer
+@pytest.mark.parametrize(
+    ("current_client", "expected_status", "current_status"),
+    (
+        (
+            pytest.lazy_fixture("admin_client"),
+            status.HTTP_200_OK,
+            Project.Status.STARTED,
+        ),
+        (
+            pytest.lazy_fixture("user_client"),
+            status.HTTP_403_FORBIDDEN,
+            Project.Status.NOT_STARTED,
+        ),
+    ),
+)
+def test_change_status(
+    current_client, test_project, expected_status, current_status
+):
+    data = {"status": Project.Status.STARTED.value}
+
+    assert test_project.status == Project.Status.NOT_STARTED
+    response = current_client.patch(
+        url_project_change_status_by_id.format(id=test_project.id), data=data
+    )
+    test_project.refresh_from_db()
+    assert response.status_code == expected_status
+    assert test_project.status == current_status
+
+
+def test_change_project_owner():
+    # TODO: check change owner
+    pass
+
+
+def test_change_employee():
+    # TODO: check change employer
+    pass
