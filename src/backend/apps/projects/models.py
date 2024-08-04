@@ -55,7 +55,6 @@ class Employee(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, verbose_name="Пользователь"
     )
-    position = models.CharField("Должность", max_length=150, blank=True)
     parent = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,

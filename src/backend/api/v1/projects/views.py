@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import generics, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -13,7 +13,11 @@ from .serializers import (
 )
 
 
-class ProjectViewSet(viewsets.ModelViewSet):
+class ProjectViewSet(
+    generics.ListCreateAPIView,
+    generics.RetrieveUpdateAPIView,
+    viewsets.GenericViewSet,
+):
     queryset = Project.objects.all()
     pagination_class = ProjectsPagination
     permission_classes = [OwnerOrAdminPermission]
@@ -24,8 +28,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return ProjectDetailSerializer
         elif self.action in ("create", "partial_update", "update"):
             return ProjectSerializer
-        elif self.action == "change_status":
-            return ProjectStatusSerializer
         return ProjectListSerializer
 
     def perform_create(self, serializer):
@@ -33,13 +35,14 @@ class ProjectViewSet(viewsets.ModelViewSet):
         Employee.objects.get_or_create(
             project=instance,
             user=self.request.user,
-            position="Руководитель проекта",
         )
 
-    @action(detail=True, methods=["POST"])
+    @action(detail=True, methods=["patch"])
     def change_status(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance=instance, data=request.data)
+        serializer = ProjectStatusSerializer(
+            instance=instance, data=request.data
+        )
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
         data = serializer.data
@@ -47,5 +50,12 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
         return Response(data)
 
-    # TODO: change owner
-    # TODO: change employer
+    @action(detail=True, methods=["patch"])
+    def change_owner(self, request, *args, **kwargs):
+        # TODO: change owner
+        pass
+
+    @action(detail=True, methods=["post"])
+    def change_employee(self, request, *args, **kwargs):
+        # TODO: change employer
+        pass

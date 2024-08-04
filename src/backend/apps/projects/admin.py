@@ -14,10 +14,10 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ("id", "project", "position", "user", "parent_display")
+    list_display = ("id", "project", "user", "parent_display")
     list_display_links = ("id", "project", "user")
     list_filter = ("project",)
-    search_fields = ("position", "user__email")
+    search_fields = ("user__email",)
 
     @display(description="Руководитель")
     def parent_display(self, obj):

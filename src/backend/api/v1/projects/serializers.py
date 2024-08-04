@@ -178,6 +178,8 @@ class ProjectDetailSerializer(ProjectBaseSerializer):
 class ProjectStatusSerializer(serializers.ModelSerializer):
     """Сериалайзер для смены статуса"""
 
+    status = serializers.ChoiceField(choices=Project.Status.choices)
+
     class Meta:
         model = Project
         fields = ("id", "status")

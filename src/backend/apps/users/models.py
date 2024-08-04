@@ -51,9 +51,9 @@ class Profile(models.Model):
             MaxValueValidator(MAX_TIMEZONE),
         ],
     )
-    # position = models.CharField(
-    #     "Должность", max_length=255, null=True, blank=True
-    # )
+    position = models.CharField(
+        "Должность", max_length=255, null=True, blank=True
+    )
     telegram = models.CharField(
         "Telegram", max_length=255, blank=True, null=True
     )

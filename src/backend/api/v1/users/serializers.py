@@ -23,7 +23,14 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ("phone", "telegram", "bio", "birthday", "time_zone")
+        fields = (
+            "phone",
+            "telegram",
+            "bio",
+            "position",
+            "birthday",
+            "time_zone",
+        )
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -49,6 +56,7 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
     bio = serializers.CharField(source="profile.bio")
     birthday = serializers.DateField(source="profile.birthday")
     phone = serializers.CharField(source="profile.phone")
+    position = serializers.CharField(source="profile.position")
     telegram = serializers.CharField(source="profile.telegram")
     time_zone = serializers.IntegerField(source="profile.time_zone")
 
@@ -62,6 +70,7 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
             "telegram",
             "bio",
             "birthday",
+            "position",
             "time_zone",
         )
 

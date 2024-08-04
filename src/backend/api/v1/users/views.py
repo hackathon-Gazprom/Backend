@@ -44,7 +44,7 @@ class UserViewSet(
         serializer.save()
         return Response(serializer.data)
 
-    @action(detail=False, methods=["put", "patch"])
+    @action(detail=False, methods=["patch"])
     def avatar(self, request):
         serializer = AvatarUserSerializer(request.user, data=request.data)
         serializer.is_valid(raise_exception=True)

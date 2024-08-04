@@ -1,4 +1,11 @@
-PROFILE_FIELDS = ("phone", "telegram", "bio", "birthday", "time_zone")
+PROFILE_FIELDS = (
+    "phone",
+    "telegram",
+    "position",
+    "bio",
+    "birthday",
+    "time_zone",
+)
 USER_FIELDS = (
     "email",
     "first_name",
