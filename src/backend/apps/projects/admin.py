@@ -1,8 +1,7 @@
 from django.contrib import admin
-from django.contrib.admin import display
 
 from .forms import ProjectForm
-from .models import Employee, Project
+from .models import Project, Member, Team, Department
 
 
 @admin.register(Project)
@@ -10,15 +9,27 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "started", "ended")
     list_display_links = ("id", "name")
     form = ProjectForm
+    raw_id_fields = ("owner",)
 
 
-@admin.register(Employee)
-class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ("id", "project", "user", "parent_display")
-    list_display_links = ("id", "project", "user")
-    list_filter = ("project",)
-    search_fields = ("user__email",)
+@admin.register(Member)
+class MemberAdmin(admin.ModelAdmin):
+    list_display = ("id", "full_name")
+    list_display_links = list_display
+    raw_id_fields = ("team", "user", "parent")
 
-    @display(description="Руководитель")
-    def parent_display(self, obj):
-        return obj.parent.user if obj.parent else None
+    @admin.display(ordering="user.last_name")
+    def full_name(self, obj):
+        return obj.user.full_name()
+
+
+@admin.register(Team)
+class TeamAdmin(admin.ModelAdmin):
+    list_display = ("id", "name")
+    list_display_links = list_display
+
+
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
+    list_display = ("id", "name")
+    list_display_links = list_display

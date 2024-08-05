@@ -1,0 +1,212 @@
+[
+  {
+    "model": "projects.department",
+    "pk": 1,
+    "fields": {
+      "name": "Backend"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 2,
+    "fields": {
+      "name": "Frontend"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 3,
+    "fields": {
+      "name": "Mobile Development"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 4,
+    "fields": {
+      "name": "DevOps"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 5,
+    "fields": {
+      "name": "Quality Assurance (QA)"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 6,
+    "fields": {
+      "name": "UI/UX Design"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 7,
+    "fields": {
+      "name": "Product Management"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 8,
+    "fields": {
+      "name": "Project Management"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 9,
+    "fields": {
+      "name": "Data Science/Analytics"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 10,
+    "fields": {
+      "name": "Security"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 11,
+    "fields": {
+      "name": "Database Administration (DBA)"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 12,
+    "fields": {
+      "name": "Infrastructure/IT Operations"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 13,
+    "fields": {
+      "name": "Technical Support"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 14,
+    "fields": {
+      "name": "Business Analysis"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 15,
+    "fields": {
+      "name": "Software Architecture"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 16,
+    "fields": {
+      "name": "Network Engineering"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 17,
+    "fields": {
+      "name": "System Administration"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 18,
+    "fields": {
+      "name": "Cloud Engineering"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 19,
+    "fields": {
+      "name": "Customer Success"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 20,
+    "fields": {
+      "name": "Research and Development (R&D)"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 21,
+    "fields": {
+      "name": "API Development"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 22,
+    "fields": {
+      "name": "Embedded Systems Development"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 23,
+    "fields": {
+      "name": "Game Development"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 24,
+    "fields": {
+      "name": "Artificial Intelligence/Machine Learning"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 25,
+    "fields": {
+      "name": "IT Compliance and Governance"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 26,
+    "fields": {
+      "name": "Sales Engineering"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 27,
+    "fields": {
+      "name": "Technical Writing"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 28,
+    "fields": {
+      "name": "Localization and Internationalization"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 29,
+    "fields": {
+      "name": "Blockchain Development"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 30,
+    "fields": {
+      "name": "Robotics Development"
+    }
+  }
+]

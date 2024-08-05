@@ -13,3 +13,4 @@ ERROR_TELEGRAM = (
 ERROR_PHONE = (
     f"Номер должен начинаться с 8 и содержать {MAX_PHONE_LENGTH} цифр."
 )
+USERS_PAGE_SIZE = 24

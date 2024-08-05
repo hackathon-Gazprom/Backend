@@ -33,21 +33,43 @@ class ProfileSerializer(serializers.ModelSerializer):
         )
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserFullNameMixin:
+    full_name = serializers.SerializerMethodField(read_only=True)
+
+    def get_full_name(self, obj):
+        return obj.full_name()
+
+
+class UserSerializer(UserFullNameMixin, serializers.ModelSerializer):
     """Сериалайзер пользователя"""
 
     profile = ProfileSerializer()
+    # TODO проекты
 
     class Meta:
         model = User
         fields = (
             "email",
-            "first_name",
-            "last_name",
-            "middle_name",
+            "full_name",
             "image",
             "profile",
         )
+
+
+class UserListSerializer(UserFullNameMixin, serializers.ModelSerializer):
+    position = serializers.CharField(source="profile.position", read_only=True)
+    department = serializers.CharField(default="")  # TODO: department
+
+    class Meta:
+        model = User
+        fields = (
+            "full_name",
+            "position",
+            "department",
+        )
+
+    def get_full_name(self, obj):
+        return obj.full_name()
 
 
 class UserProfileUpdateSerializer(serializers.ModelSerializer):

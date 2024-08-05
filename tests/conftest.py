@@ -20,6 +20,7 @@ def admin_user(django_user_model, password):
     user_data = {
         "email": "admin@example.com",
         "password": password,
+        "first_name": "admin",
     }
     return django_user_model.objects.create_superuser(**user_data)
 
@@ -29,6 +30,9 @@ def user(django_user_model, password):
     user_data = {
         "email": "user@example.com",
         "password": password,
+        "first_name": "first_name",
+        "last_name": "last_name",
+        "middle_name": "middle_name",
     }
     return django_user_model.objects.create_user(**user_data)
 

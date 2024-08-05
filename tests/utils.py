@@ -8,9 +8,7 @@ PROFILE_FIELDS = (
 )
 USER_FIELDS = (
     "email",
-    "first_name",
-    "last_name",
-    "middle_name",
+    "full_name",
     "image",
     "profile",
 )

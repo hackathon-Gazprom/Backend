@@ -8,7 +8,7 @@ from apps.projects.models import Project
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ["name", "description", "started", "ended"]
+        fields = ["name", "owner", "description", "started", "ended"]
 
     def clean(self):
         cd = self.cleaned_data
