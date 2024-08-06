@@ -13,7 +13,7 @@ from api.v1.users.constants import (
     ERROR_TIMEZONE,
     TELEGRAM_PATTERN,
 )
-from apps.projects.models import Project, Member
+from apps.projects.models import Member, Project
 from apps.users.constants import MAX_TIMEZONE, MIN_TIMEZONE, RE_PHONE
 from apps.users.models import Profile
 

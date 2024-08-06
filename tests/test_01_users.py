@@ -6,9 +6,9 @@ from api.v1.users.constants import ERROR_TELEGRAM, ERROR_TIMEZONE
 from .utils import (
     API_PREFIX,
     USER_DATA,
+    USER_PROJECT_FIELDS,
     check_patch_me,
     check_user_response,
-    USER_PROJECT_FIELDS,
 )
 
 url_users = f"{API_PREFIX}/users/"

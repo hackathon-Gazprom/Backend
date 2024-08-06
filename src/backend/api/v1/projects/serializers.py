@@ -7,12 +7,12 @@ from rest_framework import serializers
 
 from api.fields import Base64ImageField
 from api.v1.projects.constants import (
+    MAX_DEEP_SUBORDINATES,
     SUBORDINATES,
     WITHOUT_PARENT,
-    MAX_DEEP_SUBORDINATES,
 )
 from apps.projects.constants import GREATER_THAN_ENDED_DATE, LESS_THAN_TODAY
-from apps.projects.models import Project, Team, Member
+from apps.projects.models import Member, Project, Team
 
 User = get_user_model()
 
@@ -78,113 +78,6 @@ class ProjectStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ("id", "status")
-
-
-# class EmployeeSerializer(serializers.ModelSerializer):
-#     """Сериалайзер для отображения информации о работнике в дереве."""
-#
-#     image = Base64ImageField(source="user.image")
-#     subordinates = serializers.ListField(read_only=True)
-#     without_parent = serializers.ListField(read_only=True)
-#
-#     class Meta:
-#         model = Employee
-#         fields = (
-#             "id",
-#             "user_id",
-#             "image",
-#             "subordinates",
-#             "without_parent",
-#         )
-
-
-# class ProjectBaseSerializer(serializers.ModelSerializer):
-#     """Базовый сериалайзер проекта"""
-#
-#     owner = serializers.CharField()
-#     status = serializers.SerializerMethodField()
-#     employees = serializers.SerializerMethodField()
-#
-#     class Meta:
-#         model = Project
-#         fields = (
-#             "id",
-#             "name",
-#             "owner",
-#             "status",
-#             "employees",
-#             "description",
-#             "started",
-#             "ended",
-#         )
-#         read_only_fields = fields
-#         swagger_schema_fields = {"tags": ["project"]}
-#
-#     def get_status(self, obj):
-#         return obj.get_status_display()
-
-
-# class ProjectListSerializer(ProjectBaseSerializer):
-#     """Сериалайзер для детального отображения информации."""
-#
-#     def get_employees(self, obj) -> int:
-#         return Employee.objects.filter(
-#             project=obj, user__is_active=True
-#         ).count()
-
-
-# class ProjectDetailSerializer(ProjectBaseSerializer):
-#     """Сериалайзер для отображения списка."""
-#
-#     @swagger_serializer_method(serializer_or_field=EmployeeSerializer)
-#     def get_employees(self, obj):
-#         request = self.context.get("request")
-#         max_deep = request.query_params.get("deep", f"{MAX_DEEP_SUBORDINATES}")
-#         try:
-#             max_deep = int(max_deep)
-#         except ValueError:
-#             max_deep = MAX_DEEP_SUBORDINATES
-#         else:
-#             max_deep = min(max(1, max_deep), MAX_DEEP_SUBORDINATES)
-#
-#         supervisor = Employee.objects.get(project=obj, user=obj.owner)
-#         children = (
-#             Employee.objects.filter(project=obj, user__is_active=True)
-#             .exclude(id=supervisor.id)
-#             .select_related("user__profile")
-#         ).only(
-#             "id",
-#             "user_id",
-#             "user__image",
-#         )
-#         return self.get_tree(children, supervisor, max_deep)
-#
-#     def get_tree(self, children, supervisor, max_deep):
-#         tree = defaultdict(list)
-#         nodes = defaultdict(list)
-#         for child in children:
-#             nodes[child.parent_id].append(child)
-#
-#         def build_subtree(employee, deep=0):
-#             subtree = EmployeeSerializer(employee).data
-#             subtree[SUBORDINATES] = []
-#             for child in nodes[employee.id]:
-#                 if deep + 1 >= max_deep:
-#                     break
-#                 subtree[SUBORDINATES].append(
-#                     build_subtree(child, deep=deep + 1)
-#                 )
-#             return subtree
-#
-#         for parent_id in (supervisor.id, None):  # owner and non parent
-#             [
-#                 tree[parent_id].append(build_subtree(node, 0))
-#                 for node in nodes[parent_id]
-#             ]
-#         res = EmployeeSerializer(supervisor).data
-#         res[SUBORDINATES] = tree[supervisor.id]
-#         res[WITHOUT_PARENT] = tree[None]
-#         return res
 
 
 class MemberListSerializer(serializers.ModelSerializer):

@@ -3,15 +3,15 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
-from apps.projects.models import Project, Team, Member
+from apps.projects.models import Member, Project, Team
 from .paginations import ProjectsPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
+    MemberListSerializer,
     ProjectSerializer,
     ProjectStatusSerializer,
-    TeamSerializer,
     TeamDetailSerializer,
-    MemberListSerializer,
+    TeamSerializer,
 )
 
 

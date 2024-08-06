@@ -5,7 +5,7 @@ from datetime import timedelta
 import pytest
 from django.utils import timezone
 
-from apps.projects.models import Project, Team, Member, Department
+from apps.projects.models import Department, Member, Project, Team
 
 TAGS_COUNT = 3
 

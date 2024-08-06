@@ -8,10 +8,10 @@ from .permissions import IsCurrentUserOrAdminPermission
 from .serializers import (
     AvatarUserSerializer,
     UserCreateSerializer,
+    UserDetailSerializer,
     UserListSerializer,
     UserProfileUpdateSerializer,
     UserSerializer,
-    UserDetailSerializer,
 )
 
 User = get_user_model()

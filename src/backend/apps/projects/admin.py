@@ -2,8 +2,8 @@ from django.contrib import admin
 from django.db import models
 from django.utils.text import smart_split
 
-from .forms import ProjectForm, MemberForm
-from .models import Department, Member, Project, Team, ProjectTeam
+from .forms import MemberForm, ProjectForm
+from .models import Department, Member, Project, ProjectTeam, Team
 
 
 @admin.register(Project)
@@ -73,5 +73,5 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProjectTeam)
-class TeamAdmin(admin.ModelAdmin):
+class ProjectTeamAdmin(admin.ModelAdmin):
     pass

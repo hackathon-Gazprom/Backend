@@ -2,7 +2,7 @@ from django import forms
 from django.utils import timezone
 
 from apps.projects.constants import GREATER_THAN_ENDED_DATE, LESS_THAN_TODAY
-from apps.projects.models import Project, Member
+from apps.projects.models import Member, Project
 
 
 class ProjectForm(forms.ModelForm):
