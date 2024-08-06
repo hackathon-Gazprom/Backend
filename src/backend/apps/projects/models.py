@@ -9,12 +9,16 @@ User = get_user_model()
 
 class Team(models.Model):
     name = models.CharField("Название", max_length=150, db_index=True)
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="Автор"
+    )
     description = models.TextField("Описание", blank=True)
 
     class Meta:
         verbose_name = "Команда"
         verbose_name_plural = "Команды"
         ordering = ("name",)
+        default_related_name = "teams"
 
     def __str__(self):
         return self.name
@@ -37,8 +41,9 @@ class Project(CreatedField):
     status = models.IntegerField(
         choices=Status.choices, default=Status.NOT_STARTED
     )
-    team = models.ForeignKey(
-        Team, on_delete=models.SET_NULL, null=True, blank=True
+    teams = models.ManyToManyField(
+        "ProjectTeam",
+        related_name="projects",
     )
     started = models.DateField("Начало")
     ended = models.DateField("Конец")
@@ -62,6 +67,19 @@ class Project(CreatedField):
 
     def get_status_display(self):
         return STATUS_DISPLAY.get(self.status, "Неизвестный статус")
+
+
+class ProjectTeam(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+
+    class Meta:
+        default_related_name = "project_team"
+        verbose_name = "Проект-команда"
+        verbose_name_plural = "Проекты-команды"
+
+    def __str__(self):
+        return f"{self.project} - {self.team}"
 
 
 class Department(models.Model):
@@ -94,6 +112,11 @@ class Member(models.Model):
     )
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["team", "user"], name="unique_member"
+            ),
+        ]
         verbose_name = "Участник"
         verbose_name_plural = "Участники"
 

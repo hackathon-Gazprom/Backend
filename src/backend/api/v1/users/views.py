@@ -8,16 +8,18 @@ from .permissions import IsCurrentUserOrAdminPermission
 from .serializers import (
     AvatarUserSerializer,
     UserCreateSerializer,
+    UserListSerializer,
     UserProfileUpdateSerializer,
     UserSerializer,
-    UserListSerializer,
+    UserDetailSerializer,
 )
 
 User = get_user_model()
 
 
 # TODO list users, фильтр (ФИО, должность, отдел?) по 12
-# TODO list users для фильтра (ФИО + должность) (Подразделение?, должность, город?) по сколько?
+# TODO list users для фильтра (ФИО + должность)
+#  (Подразделение?, должность, город?) по сколько?
 
 
 class UserViewSet(
@@ -34,6 +36,8 @@ class UserViewSet(
             return UserCreateSerializer
         elif self.action == "list":
             return UserListSerializer
+        elif self.action == "retrieve":
+            return UserDetailSerializer
         return UserSerializer
 
     def get_permissions(self):

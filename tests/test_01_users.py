@@ -2,12 +2,19 @@ import os
 
 from rest_framework import status
 
-from .utils import USER_DATA, check_patch_me, check_user_response
+from api.v1.users.constants import ERROR_TELEGRAM, ERROR_TIMEZONE
+from .utils import (
+    API_PREFIX,
+    USER_DATA,
+    check_patch_me,
+    check_user_response,
+    USER_PROJECT_FIELDS,
+)
 
-url_users = "/api/v1/users/"
-url_user_by_id = "/api/v1/users/{id}/"
-url_me = "/api/v1/users/me/"
-url_avatar = "/api/v1/users/avatar/"
+url_users = f"{API_PREFIX}/users/"
+url_user_by_id = url_users + "{id}/"
+url_me = url_users + "me/"
+url_avatar = url_users + "avatar/"
 
 
 def test_admin_create_user(admin_client):
@@ -45,11 +52,22 @@ def test_patch_me(user_client):
     check_patch_me(json_response, new_data)
 
 
+def test_patch_me_invalid_data(user_client):
+    new_data = {"telegram": "new_telegram", "time_zone": 15}
+    response = user_client.patch(url_me, data=new_data)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+    json_response = response.json()
+    assert isinstance(json_response["telegram"], list)
+    assert json_response["telegram"] == [ERROR_TELEGRAM]
+    assert isinstance(json_response["time_zone"], list)
+    assert json_response["time_zone"] == [ERROR_TIMEZONE]
+
+
 def test_get_user(user_client, admin_user):
     response = user_client.get(url_user_by_id.format(id=admin_user.id))
     assert response.status_code == status.HTTP_200_OK
-
-    check_user_response(response.json())
+    check_user_response(response.json(), USER_PROJECT_FIELDS)
 
 
 def test_anonymous_user(client, user):

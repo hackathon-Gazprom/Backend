@@ -12,16 +12,17 @@ USER_FIELDS = (
     "image",
     "profile",
 )
+USER_PROJECT_FIELDS = USER_FIELDS + ("projects",)
 USER_DATA = {
     "email": "fake1@fake.com",
     "password": "randomPassword12363",
 }
 
 
-def check_user_response(json_response):
-    for field in USER_FIELDS:
+def check_user_response(json_response, fields=USER_FIELDS):
+    for field in fields:
         assert field in json_response
-    assert len(USER_FIELDS) == len(json_response)
+    assert len(fields) == len(json_response)
 
     profile_response = json_response["profile"]
     for field in PROFILE_FIELDS:
@@ -38,3 +39,6 @@ def check_patch_me(json_response, new_data):
     for field in PROFILE_FIELDS:
         if field in new_data:
             assert new_data[field] == profile_response[field]
+
+
+API_PREFIX = "/api/v1"

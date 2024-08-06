@@ -1,14 +1,17 @@
 from rest_framework.decorators import action
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
-from apps.projects.models import Project
+from apps.projects.models import Project, Team, Member
 from .paginations import ProjectsPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
     ProjectSerializer,
     ProjectStatusSerializer,
+    TeamSerializer,
+    TeamDetailSerializer,
+    MemberListSerializer,
 )
 
 
@@ -19,19 +22,8 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
     serializer_class = ProjectSerializer
     swagger_tags = ["projects"]
 
-    # def get_serializer_class(self):
-    #     if self.action == "retrieve":
-    #         return ProjectDetailSerializer
-    #     elif self.action in ("create", "partial_update", "update"):
-    #         return ProjectSerializer
-    #     return ProjectListSerializer
-
     def perform_create(self, serializer):
-        instance = serializer.save(owner=self.request.user)
-        # Employee.objects.get_or_create(
-        #     project=instance,
-        #     user=self.request.user,
-        # )
+        serializer.save(owner=self.request.user)
 
     @action(detail=True, methods=["patch"])
     def change_status(self, request, *args, **kwargs):
@@ -58,3 +50,17 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
 
 
 # TODO: Команды список, детально структура
+
+
+class TeamViewSet(ReadOnlyModelViewSet):
+    queryset = Team.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return TeamDetailSerializer
+        return TeamSerializer
+
+
+class MemberViewSet(ReadOnlyModelViewSet):
+    queryset = Member.objects.all()
+    serializer_class = MemberListSerializer

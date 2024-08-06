@@ -4,10 +4,11 @@ from rest_framework import status
 
 from api.v1.projects.constants import PROJECT_PAGE_SIZE
 from apps.projects.models import Project
+from .utils import API_PREFIX
 
-url_projects = "/api/v1/projects/"
-url_project_by_id = "/api/v1/projects/{id}/"
-url_project_change_status_by_id = "/api/v1/projects/{id}/change_status/"
+url_projects = f"{API_PREFIX}/projects/"
+url_project_by_id = url_projects + "{id}/"
+url_project_change_status_by_id = url_project_by_id + "change_status/"
 
 
 @pytest.mark.usefixtures("create_projects")

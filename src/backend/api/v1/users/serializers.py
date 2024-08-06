@@ -6,12 +6,14 @@ from django.core import exceptions
 from rest_framework import serializers
 
 from api.fields import Base64ImageField
+from api.v1.projects.serializers import ProjectShortSerializer
 from api.v1.users.constants import (
     ERROR_PHONE,
     ERROR_TELEGRAM,
     ERROR_TIMEZONE,
     TELEGRAM_PATTERN,
 )
+from apps.projects.models import Project, Member
 from apps.users.constants import MAX_TIMEZONE, MIN_TIMEZONE, RE_PHONE
 from apps.users.models import Profile
 
@@ -158,3 +160,28 @@ class AvatarUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("image",)
+
+
+class UserDetailSerializer(UserFullNameMixin, serializers.ModelSerializer):
+    """Сериалайзер пользователя"""
+
+    profile = ProfileSerializer()
+    projects = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "full_name",
+            "image",
+            "profile",
+            "projects",
+        )
+
+    def get_projects(self, user):
+        projects = Project.objects.filter(
+            teams__in=Member.objects.filter(user=user).values_list(
+                "team_id", flat=True
+            )
+        ).only("id", "name")
+        return ProjectShortSerializer(projects, many=True).data
