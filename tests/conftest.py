@@ -9,6 +9,7 @@ from apps.projects.models import Department, Member, Project, Team
 from apps.users.models import Profile
 
 TAGS_COUNT = 3
+USER_NAMES = ["Иван", "Александр", "Алексей", "Игорь", "Виктор"]
 CITIES = ["City1", "City2", "City3"]
 POSITIONS = ["Position1", "Position2", "Position3", "Position4"]
 
@@ -100,11 +101,13 @@ def create_projects(create_users):
 
 @pytest.fixture
 def create_users(django_user_model, password):
+    n = len(USER_NAMES)
     users = django_user_model.objects.bulk_create(
         [
             django_user_model(
                 email=f"user_{i+1}@example.com",
                 password=password,
+                first_name=USER_NAMES[i % n],
             )
             for i in range(15)
         ]

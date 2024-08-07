@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
@@ -9,7 +10,7 @@ from .filters import MemberFilter
 from .paginations import ProjectsPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
-    MemberListSerializer,
+    MemberSerializer,
     ProjectSerializer,
     ProjectStatusSerializer,
     TeamDetailSerializer,
@@ -65,6 +66,11 @@ class TeamViewSet(ReadOnlyModelViewSet):
 
 class MemberViewSet(ReadOnlyModelViewSet):
     queryset = Member.objects.all()
-    serializer_class = MemberListSerializer
-    filter_backends = [DjangoFilterBackend]
+    serializer_class = MemberSerializer
+    filter_backends = [SearchFilter, DjangoFilterBackend]
     filterset_class = MemberFilter
+    search_fields = [
+        "^user__first_name",
+        "^user__last_name",
+        "^user__middle_name",
+    ]

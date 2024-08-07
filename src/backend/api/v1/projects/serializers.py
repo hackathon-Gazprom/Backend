@@ -80,7 +80,12 @@ class ProjectStatusSerializer(serializers.ModelSerializer):
         fields = ("id", "status")
 
 
-class MemberListSerializer(serializers.ModelSerializer):
+class MemberSerializer(serializers.ModelSerializer):
+    """Сериалайзер сотрудников"""
+
+    department = serializers.SlugRelatedField(
+        slug_field="name", read_only=True
+    )
     full_name = serializers.SerializerMethodField(read_only=True)
     position = serializers.CharField(
         source="user.profile.position", read_only=True
@@ -99,7 +104,9 @@ class MemberListSerializer(serializers.ModelSerializer):
         return obj.user.full_name()
 
 
-class MemberSerializer(serializers.ModelSerializer):
+class MemberTeamSerializer(serializers.ModelSerializer):
+    """Сериалайзер для отображения структуры команды"""
+
     image = Base64ImageField(source="user.image")
     subordinates = serializers.ListField(read_only=True)
     without_parent = serializers.ListField(read_only=True)
@@ -136,7 +143,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         model = Team
         fields = ("id", "name", "owner", "description", "employees")
 
-    @swagger_serializer_method(serializer_or_field=MemberSerializer)
+    @swagger_serializer_method(serializer_or_field=MemberTeamSerializer)
     def get_employees(self, obj):
         request = self.context.get("request")
         max_deep = request.query_params.get("deep", f"{MAX_DEEP_SUBORDINATES}")
@@ -157,7 +164,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
             "user_id",
             "user__image",
         )
-        return get_tree(children, supervisor, max_deep, MemberSerializer)
+        return get_tree(children, supervisor, max_deep, MemberTeamSerializer)
 
 
 class ProjectListSerializer(serializers.ModelSerializer):

@@ -33,7 +33,7 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     def full_name(self):
-        return f"{self.last_name} {self.first_name} {self.middle_name}"
+        return f"{self.last_name} {self.first_name} {self.middle_name}".strip()
 
 
 class Profile(models.Model):
