@@ -20,7 +20,7 @@ def test_get_members(user_client):
 
 @pytest.mark.usefixtures("test_members_with_profile", "test_member")
 def test_filter_members(user_client):
-    url = url_members + "?city=City1&position=Инженер"
+    url = url_members + "?city=MyCity&position=Position1"
     response = user_client.get(url)
     assert response.status_code == status.HTTP_200_OK
     json_response = response.json()
@@ -33,5 +33,5 @@ def test_search_and_filter_members(user_client):
     url = url_members + "?search=И&position=Position1"
     response = user_client.get(url)
     json_response = response.json()
-    assert len(json_response) > 0, json_response
     print(json_response)
+    assert len(json_response) > 0, json_response

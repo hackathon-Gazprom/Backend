@@ -34,7 +34,7 @@ def user(django_user_model, password):
     user_data = {
         "email": "user@example.com",
         "password": password,
-        "first_name": "first_name",
+        "first_name": USER_NAMES[0],
         "last_name": "last_name",
         "middle_name": "middle_name",
     }
@@ -44,8 +44,8 @@ def user(django_user_model, password):
 @pytest.fixture
 def user_with_profile(user):
     profile = user.profile
-    profile.position = "Инженер"
-    profile.city = "City1"
+    profile.position = POSITIONS[0]
+    profile.city = "MyCity"
     profile.save()
     return user
 
