@@ -33,7 +33,7 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     def full_name(self):
-        return f"{self.last_name} {self.first_name} {self.middle_name}"
+        return f"{self.last_name} {self.first_name} {self.middle_name}".strip()
 
 
 class Profile(models.Model):
@@ -57,6 +57,7 @@ class Profile(models.Model):
     telegram = models.CharField(
         "Telegram", max_length=255, blank=True, null=True
     )
+    city = models.CharField("Город", max_length=25, blank=True)
     phone = models.CharField(
         "Телефон",
         max_length=MAX_PHONE_LENGTH,

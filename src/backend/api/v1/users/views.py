@@ -46,11 +46,12 @@ class UserViewSet(
         else:
             return [IsCurrentUserOrAdminPermission()]
 
-    @action(detail=False, methods=["get", "patch"])
+    @action(detail=False, methods=["get"])
     def me(self, request):
-        if request.method == "GET":
-            return Response(UserSerializer(request.user).data)
+        return Response(UserSerializer(request.user).data)
 
+    @me.mapping.patch
+    def update_me(self, request):
         serializer = UserProfileUpdateSerializer(
             request.user, data=request.data, partial=True
         )

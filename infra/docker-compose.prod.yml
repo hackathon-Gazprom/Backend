@@ -27,6 +27,12 @@ services:
       db:
         condition: service_healthy
 
+  frontend:
+    image: mxnoob/gazprom_frontend
+    command: cp -r /app/dist/. /frontend_static/
+    volumes:
+      - staticfiles:/frontend_static
+
   nginx:
     image: mxnoob/gazprom_nginx
     ports:
@@ -35,6 +41,7 @@ services:
       - staticfiles:/staticfiles/
       - mediafiles:/media/
     depends_on:
+      - frontend
       - backend
 
   redis:
