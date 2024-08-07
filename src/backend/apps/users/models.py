@@ -57,6 +57,7 @@ class Profile(models.Model):
     telegram = models.CharField(
         "Telegram", max_length=255, blank=True, null=True
     )
+    city = models.CharField("Город", max_length=25, blank=True)
     phone = models.CharField(
         "Телефон",
         max_length=MAX_PHONE_LENGTH,
