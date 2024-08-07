@@ -1,9 +1,11 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
 from apps.projects.models import Member, Project, Team
+from .filters import MemberFilter
 from .paginations import ProjectsPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
@@ -64,3 +66,5 @@ class TeamViewSet(ReadOnlyModelViewSet):
 class MemberViewSet(ReadOnlyModelViewSet):
     queryset = Member.objects.all()
     serializer_class = MemberListSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = MemberFilter

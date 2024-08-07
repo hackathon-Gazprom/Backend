@@ -6,8 +6,11 @@ import pytest
 from django.utils import timezone
 
 from apps.projects.models import Department, Member, Project, Team
+from apps.users.models import Profile
 
 TAGS_COUNT = 3
+CITIES = ["City1", "City2", "City3"]
+POSITIONS = ["Position1", "Position2", "Position3", "Position4"]
 
 
 @pytest.fixture
@@ -35,6 +38,15 @@ def user(django_user_model, password):
         "middle_name": "middle_name",
     }
     return django_user_model.objects.create_user(**user_data)
+
+
+@pytest.fixture
+def user_with_profile(user):
+    profile = user.profile
+    profile.position = "Инженер"
+    profile.city = "City1"
+    profile.save()
+    return user
 
 
 def client_force(user):
@@ -88,7 +100,7 @@ def create_projects(create_users):
 
 @pytest.fixture
 def create_users(django_user_model, password):
-    return django_user_model.objects.bulk_create(
+    users = django_user_model.objects.bulk_create(
         [
             django_user_model(
                 email=f"user_{i+1}@example.com",
@@ -97,6 +109,9 @@ def create_users(django_user_model, password):
             for i in range(15)
         ]
     )
+    Profile.objects.bulk_create([Profile(user=u) for u in users])
+
+    return users
 
 
 @pytest.fixture
@@ -135,3 +150,24 @@ def test_members(test_teams, create_users, test_departments):
             for i in range(10)
         ]
     )
+
+
+@pytest.fixture
+def test_member(test_teams, test_departments, user_with_profile):
+    return Member.objects.create(
+        team=random.choice(test_teams),
+        user=user_with_profile,
+        department=random.choice(test_departments),
+    )
+
+
+@pytest.fixture
+def test_members_with_profile(test_members):
+    c = len(CITIES)
+    p = len(POSITIONS)
+    for i, member in enumerate(test_members):
+        profile = member.user.profile
+        profile.city = CITIES[i % c]
+        profile.position = POSITIONS[i % p]
+        profile.save()
+    return test_members
