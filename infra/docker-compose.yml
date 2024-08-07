@@ -1,0 +1,41 @@
+version: '3.3'
+
+volumes:
+  pg_data:
+  staticfiles:
+  mediafiles:
+
+services:
+  db:
+    image: postgres:15-alpine
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h $POSTGRES_HOST -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ../.
+    env_file: .env
+    volumes:
+      - staticfiles:/app/staticfiles
+      - mediafiles:/app/media/
+    depends_on:
+      db:
+        condition: service_healthy
+
+  nginx:
+    build: nginx/.
+    ports:
+      - "8000:80"
+    volumes:
+      - staticfiles:/staticfiles/
+      - mediafiles:/media/
+    depends_on:
+      - backend
+
+  redis:
+    image: redis:7.4-rc2-alpine
