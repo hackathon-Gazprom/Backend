@@ -1148,5 +1148,24 @@
       "city": "Подольск",
       "time_zone": 3
     }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 51,
+    "fields": {
+      "password": "test",
+      "email": "test@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 51,
+    "fields": {
+      "user_id": 51,
+      "time_zone": 3
+    }
   }
 ]
