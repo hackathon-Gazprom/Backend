@@ -49,18 +49,13 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
 
         return Response(data)
 
-    @action(detail=True, methods=["patch"])
-    def change_owner(self, request, *args, **kwargs):
-        # TODO: change owner
-        pass
+    # @action(detail=True, methods=["patch"])
+    # def change_owner(self, request, *args, **kwargs):
+    #     pass  # TODO: change owner
 
-    @action(detail=True, methods=["post"])
-    def change_employee(self, request, *args, **kwargs):
-        # TODO: change employer
-        pass
-
-
-# TODO: Команды список, детально структура
+    # @action(detail=True, methods=["post"])
+    # def change_employee(self, request, *args, **kwargs):
+    #     pass  # TODO: change employer
 
 
 class TeamViewSet(ReadOnlyModelViewSet):

@@ -143,6 +143,7 @@ SWAGGER_SETTINGS = {
         },
     },
     "DEFAULT_AUTO_SCHEMA_CLASS": "api.yasg.CustomAutoSchema",
+    "DEFAULT_API_URL": "https://gazprom.hopto.org",
 }
 
 SIMPLE_JWT = {
