@@ -33,5 +33,4 @@ def test_search_and_filter_members(user_client):
     url = url_members + "?search=И&position=Position1"
     response = user_client.get(url)
     json_response = response.json()
-    print(json_response)
     assert len(json_response) > 0, json_response

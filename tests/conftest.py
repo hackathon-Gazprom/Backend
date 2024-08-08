@@ -5,7 +5,7 @@ from datetime import timedelta
 import pytest
 from django.utils import timezone
 
-from apps.projects.models import Department, Member, Project, Team
+from apps.projects.models import Department, Member, Project, ProjectTeam, Team
 from apps.users.models import Profile
 
 TAGS_COUNT = 3
@@ -125,10 +125,11 @@ def test_departments():
 
 
 @pytest.fixture
-def test_team(admin_user, test_departments):
+def test_team(admin_user, test_departments, test_project):
     team = Team.objects.create(
         name="test_team", description="description", owner=admin_user
     )
+    ProjectTeam.objects.create(team=team, project=test_project)
     Member.objects.create(team=team, user=admin_user, department_id=1)
     return team
 
