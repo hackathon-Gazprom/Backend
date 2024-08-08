@@ -65,6 +65,7 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
 
 class TeamViewSet(ReadOnlyModelViewSet):
     queryset = Team.objects.all()
+    swagger_tags = ["teams"]
 
     def get_serializer_class(self):
         if self.action == "retrieve":
@@ -82,3 +83,4 @@ class MemberViewSet(ReadOnlyModelViewSet):
         "^user__last_name",
         "^user__middle_name",
     ]
+    swagger_tags = ["members"]
