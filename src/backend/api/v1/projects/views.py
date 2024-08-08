@@ -49,22 +49,18 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
 
         return Response(data)
 
-    @action(detail=True, methods=["patch"])
-    def change_owner(self, request, *args, **kwargs):
-        # TODO: change owner
-        pass
+    # @action(detail=True, methods=["patch"])
+    # def change_owner(self, request, *args, **kwargs):
+    #     pass  # TODO: change owner
 
-    @action(detail=True, methods=["post"])
-    def change_employee(self, request, *args, **kwargs):
-        # TODO: change employer
-        pass
-
-
-# TODO: Команды список, детально структура
+    # @action(detail=True, methods=["post"])
+    # def change_employee(self, request, *args, **kwargs):
+    #     pass  # TODO: change employer
 
 
 class TeamViewSet(ReadOnlyModelViewSet):
     queryset = Team.objects.all()
+    swagger_tags = ["teams"]
 
     def get_serializer_class(self):
         if self.action == "retrieve":
@@ -82,3 +78,4 @@ class MemberViewSet(ReadOnlyModelViewSet):
         "^user__last_name",
         "^user__middle_name",
     ]
+    swagger_tags = ["members"]
