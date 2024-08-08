@@ -22,7 +22,7 @@ services:
     env_file: .env
     volumes:
       - staticfiles:/app/staticfiles
-      - mediafiles:/app/media/
+      - mediafiles:/app/mediafiles/
     depends_on:
       db:
         condition: service_healthy

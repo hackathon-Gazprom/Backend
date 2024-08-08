@@ -12,9 +12,45 @@ from api.v1.projects.constants import (
     WITHOUT_PARENT,
 )
 from apps.projects.constants import GREATER_THAN_ENDED_DATE, LESS_THAN_TODAY
-from apps.projects.models import Member, Project, Team
+from apps.projects.models import Member, Project, ProjectTeam, Team
 
 User = get_user_model()
+
+
+class ProjectShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = (
+            "id",
+            "name",
+        )
+
+
+class ProjectTeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectTeam
+        fields = ("id",)
+
+    def to_representation(self, instance):
+        return ProjectShortSerializer(instance.project).data
+
+
+class TeamShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team
+        fields = (
+            "id",
+            "name",
+        )
+
+
+class TeamProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectTeam
+        fields = ("id",)
+
+    def to_representation(self, instance):
+        return TeamShortSerializer(instance.team).data
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -77,7 +113,10 @@ class ProjectStatusSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ("id", "status")
+        fields = (
+            "id",
+            "status",
+        )
 
 
 class MemberSerializer(serializers.ModelSerializer):
@@ -122,18 +161,16 @@ class MemberTeamSerializer(serializers.ModelSerializer):
         )
 
 
-class TeamListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Team
-        fields = ("id", "name", "description")
-
-
 class TeamSerializer(serializers.ModelSerializer):
     """Сериалайзер команд"""
 
+    projects = ProjectTeamSerializer(
+        many=True, read_only=True, source="project_team"
+    )
+
     class Meta:
         model = Team
-        fields = ("id", "name", "description")
+        fields = ("id", "name", "projects")
 
 
 class TeamDetailSerializer(serializers.ModelSerializer):
@@ -168,15 +205,17 @@ class TeamDetailSerializer(serializers.ModelSerializer):
 
 
 class ProjectListSerializer(serializers.ModelSerializer):
+    teams = TeamProjectSerializer(
+        many=True, read_only=True, source="project_team"
+    )
+
     class Meta:
         model = Project
-        fields = ("id", "name", "description")
-
-
-class TeamShortSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Team
-        fields = ("id", "name")
+        fields = (
+            "id",
+            "name",
+            "teams",
+        )
 
 
 class ProjectDetailSerializer(serializers.ModelSerializer):
@@ -184,13 +223,14 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ("id", "name", "description", "teams", "started", "ended")
-
-
-class ProjectShortSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Project
-        fields = ("id", "name")
+        fields = (
+            "id",
+            "name",
+            "description",
+            "teams",
+            "started",
+            "ended",
+        )
 
 
 def get_tree(children, owner, max_deep, serializer):

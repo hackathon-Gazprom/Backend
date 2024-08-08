@@ -11,6 +11,8 @@ from .paginations import ProjectsPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
     MemberSerializer,
+    ProjectDetailSerializer,
+    ProjectListSerializer,
     ProjectSerializer,
     ProjectStatusSerializer,
     TeamDetailSerializer,
@@ -22,8 +24,14 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
     queryset = Project.objects.all()
     pagination_class = ProjectsPagination
     permission_classes = [OwnerOrAdminPermission]
-    serializer_class = ProjectSerializer
     swagger_tags = ["projects"]
+
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return ProjectDetailSerializer
+        elif self.action == "list":
+            return ProjectListSerializer
+        return ProjectSerializer
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

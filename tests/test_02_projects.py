@@ -23,6 +23,19 @@ def test_get_all_projects(admin_client):
     assert len(response.json()["results"]) == 8
 
 
+@pytest.mark.usefixtures("test_team")
+def test_projects(admin_client):
+    response = admin_client.get(url_projects)
+    json_response = response.json()["results"][0]
+    teams = json_response["teams"]
+    assert isinstance(teams, list)
+    team = teams[0]
+    fields = ("id", "name")
+    errors = [f for f in fields if f not in team]
+    assert not errors, "Response must contain fields:\n" + "\n".join(errors)
+    assert len(team) == len(fields)
+
+
 def test_create_project(admin_client):
     data = {
         "name": "test_project",
@@ -86,10 +99,8 @@ def test_change_status(
 
 
 def test_change_project_owner():
-    # TODO: check change owner
-    pass
+    pass  # TODO: check change owner
 
 
 def test_change_employee():
-    # TODO: check change employer
-    pass
+    pass  # TODO: check change employer

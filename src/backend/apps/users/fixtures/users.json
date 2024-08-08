@@ -1,0 +1,1152 @@
+[
+  {
+    "model": "users.customuser",
+    "pk": 1,
+    "fields": {
+      "first_name": "Иван",
+      "last_name": "Иванов",
+      "middle_name": "Иванович",
+      "password": "test",
+      "email": "fake1@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 1,
+    "fields": {
+      "user_id": 1,
+      "city": "Москва",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 2,
+    "fields": {
+      "first_name": "Петр",
+      "last_name": "Петров",
+      "middle_name": "Петрович",
+      "password": "test",
+      "email": "fake2@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 2,
+    "fields": {
+      "user_id": 2,
+      "city": "Санкт-Петербург",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 3,
+    "fields": {
+      "first_name": "Сидор",
+      "last_name": "Сидоров",
+      "middle_name": "Сидорович",
+      "password": "test",
+      "email": "fake3@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 3,
+    "fields": {
+      "user_id": 3,
+      "city": "Новосибирск",
+      "time_zone": 7
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 4,
+    "fields": {
+      "first_name": "Анна",
+      "last_name": "Смирнова",
+      "middle_name": "Ивановна",
+      "password": "test",
+      "email": "fake4@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 4,
+    "fields": {
+      "user_id": 4,
+      "city": "Екатеринбург",
+      "time_zone": 5
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 5,
+    "fields": {
+      "first_name": "Мария",
+      "last_name": "Кузнецова",
+      "middle_name": "Петровна",
+      "password": "test",
+      "email": "fake5@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 5,
+    "fields": {
+      "user_id": 5,
+      "city": "Казань",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 6,
+    "fields": {
+      "first_name": "Николай",
+      "last_name": "Попов",
+      "middle_name": "Сергеевич",
+      "password": "test",
+      "email": "fake6@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 6,
+    "fields": {
+      "user_id": 6,
+      "city": "Нижний Новгород",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 7,
+    "fields": {
+      "first_name": "Алексей",
+      "last_name": "Васильев",
+      "middle_name": "Викторович",
+      "password": "test",
+      "email": "fake7@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 7,
+    "fields": {
+      "user_id": 7,
+      "city": "Челябинск",
+      "time_zone": 5
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 8,
+    "fields": {
+      "first_name": "Елена",
+      "last_name": "Захарова",
+      "middle_name": "Александровна",
+      "password": "test",
+      "email": "fake8@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 8,
+    "fields": {
+      "user_id": 8,
+      "city": "Омск",
+      "time_zone": 6
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 9,
+    "fields": {
+      "first_name": "Михаил",
+      "last_name": "Федоров",
+      "middle_name": "Андреевич",
+      "password": "test",
+      "email": "fake9@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 9,
+    "fields": {
+      "user_id": 9,
+      "city": "Ростов-на-Дону",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 10,
+    "fields": {
+      "first_name": "Сергей",
+      "last_name": "Волков",
+      "middle_name": "Владимирович",
+      "password": "test",
+      "email": "fake10@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 10,
+    "fields": {
+      "user_id": 10,
+      "city": "Уфа",
+      "time_zone": 5
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 11,
+    "fields": {
+      "first_name": "Ирина",
+      "last_name": "Семенова",
+      "middle_name": "Михайловна",
+      "password": "test",
+      "email": "fake11@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 11,
+    "fields": {
+      "user_id": 11,
+      "city": "Красноярск",
+      "time_zone": 7
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 12,
+    "fields": {
+      "first_name": "Андрей",
+      "last_name": "Егоров",
+      "middle_name": "Игоревич",
+      "password": "test",
+      "email": "fake12@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 12,
+    "fields": {
+      "user_id": 12,
+      "city": "Пермь",
+      "time_zone": 5
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 13,
+    "fields": {
+      "first_name": "Ольга",
+      "last_name": "Павлова",
+      "middle_name": "Сергеевна",
+      "password": "test",
+      "email": "fake13@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 13,
+    "fields": {
+      "user_id": 13,
+      "city": "Волгоград",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 14,
+    "fields": {
+      "first_name": "Дмитрий",
+      "last_name": "Козлов",
+      "middle_name": "Алексеевич",
+      "password": "test",
+      "email": "fake14@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 14,
+    "fields": {
+      "user_id": 14,
+      "city": "Воронеж",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 15,
+    "fields": {
+      "first_name": "Светлана",
+      "last_name": "Степанова",
+      "middle_name": "Ивановна",
+      "password": "test",
+      "email": "fake15@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 15,
+    "fields": {
+      "user_id": 15,
+      "city": "Краснодар",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 16,
+    "fields": {
+      "first_name": "Александр",
+      "last_name": "Морозов",
+      "middle_name": "Сергеевич",
+      "password": "test",
+      "email": "fake16@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 16,
+    "fields": {
+      "user_id": 16,
+      "city": "Саратов",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 17,
+    "fields": {
+      "first_name": "Юлия",
+      "last_name": "Новикова",
+      "middle_name": "Викторовна",
+      "password": "test",
+      "email": "fake17@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 17,
+    "fields": {
+      "user_id": 17,
+      "city": "Тольятти",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 18,
+    "fields": {
+      "first_name": "Виктор",
+      "last_name": "Фролов",
+      "middle_name": "Анатольевич",
+      "password": "test",
+      "email": "fake18@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 18,
+    "fields": {
+      "user_id": 18,
+      "city": "Ижевск",
+      "time_zone": 4
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 19,
+    "fields": {
+      "first_name": "Марина",
+      "last_name": "Голубева",
+      "middle_name": "Владимировна",
+      "password": "test",
+      "email": "fake19@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 19,
+    "fields": {
+      "user_id": 19,
+      "city": "Барнаул",
+      "time_zone": 7
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 20,
+    "fields": {
+      "first_name": "Константин",
+      "last_name": "Романов",
+      "middle_name": "Евгеньевич",
+      "password": "test",
+      "email": "fake20@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 20,
+    "fields": {
+      "user_id": 20,
+      "city": "Ульяновск",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 21,
+    "fields": {
+      "first_name": "Екатерина",
+      "last_name": "Карпова",
+      "middle_name": "Александровна",
+      "password": "test",
+      "email": "fake21@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 21,
+    "fields": {
+      "user_id": 21,
+      "city": "Иркутск",
+      "time_zone": 8
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 22,
+    "fields": {
+      "first_name": "Илья",
+      "last_name": "Никитин",
+      "middle_name": "Олегович",
+      "password": "test",
+      "email": "fake22@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 22,
+    "fields": {
+      "user_id": 22,
+      "city": "Хабаровск",
+      "time_zone": 10
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 23,
+    "fields": {
+      "first_name": "Наталья",
+      "last_name": "Михайлова",
+      "middle_name": "Павловна",
+      "password": "test",
+      "email": "fake23@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 23,
+    "fields": {
+      "user_id": 23,
+      "city": "Ярославль",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 24,
+    "fields": {
+      "first_name": "Роман",
+      "last_name": "Белов",
+      "middle_name": "Владимирович",
+      "password": "test",
+      "email": "fake24@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 24,
+    "fields": {
+      "user_id": 24,
+      "city": "Владивосток",
+      "time_zone": 10
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 25,
+    "fields": {
+      "first_name": "Татьяна",
+      "last_name": "Медведева",
+      "middle_name": "Алексеевна",
+      "password": "test",
+      "email": "fake25@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 25,
+    "fields": {
+      "user_id": 25,
+      "city": "Махачкала",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 26,
+    "fields": {
+      "first_name": "Иван",
+      "last_name": "Антонов",
+      "middle_name": "Сергеевич",
+      "password": "test",
+      "email": "fake26@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 26,
+    "fields": {
+      "user_id": 26,
+      "city": "Тюмень",
+      "time_zone": 5
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 27,
+    "fields": {
+      "first_name": "Елена",
+      "last_name": "Тарасова",
+      "middle_name": "Петровна",
+      "password": "test",
+      "email": "fake27@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 27,
+    "fields": {
+      "user_id": 27,
+      "city": "Липецк",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 28,
+    "fields": {
+      "first_name": "Владимир",
+      "last_name": "Григорьев",
+      "middle_name": "Николаевич",
+      "password": "test",
+      "email": "fake28@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 28,
+    "fields": {
+      "user_id": 28,
+      "city": "Киров",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 29,
+    "fields": {
+      "first_name": "Оксана",
+      "last_name": "Богданова",
+      "middle_name": "Викторовна",
+      "password": "test",
+      "email": "fake29@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 29,
+    "fields": {
+      "user_id": 29,
+      "city": "Астрахань",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 30,
+    "fields": {
+      "first_name": "Юлия",
+      "last_name": "Орлова",
+      "middle_name": "Михайловна",
+      "password": "test",
+      "email": "fake30@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 30,
+    "fields": {
+      "user_id": 30,
+      "city": "Пенза",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 31,
+    "fields": {
+      "first_name": "Артем",
+      "last_name": "Власов",
+      "middle_name": "Викторович",
+      "password": "test",
+      "email": "fake31@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 31,
+    "fields": {
+      "user_id": 31,
+      "city": "Балашиха",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 32,
+    "fields": {
+      "first_name": "Екатерина",
+      "last_name": "Соловьева",
+      "middle_name": "Ивановна",
+      "password": "test",
+      "email": "fake32@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 32,
+    "fields": {
+      "user_id": 32,
+      "city": "Тула",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 33,
+    "fields": {
+      "first_name": "Павел",
+      "last_name": "Зайцев",
+      "middle_name": "Владимирович",
+      "password": "test",
+      "email": "fake33@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 33,
+    "fields": {
+      "user_id": 33,
+      "city": "Курск",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 34,
+    "fields": {
+      "first_name": "Олег",
+      "last_name": "Павлов",
+      "middle_name": "Андреевич",
+      "password": "test",
+      "email": "fake34@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 34,
+    "fields": {
+      "user_id": 34,
+      "city": "Севастополь",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 35,
+    "fields": {
+      "first_name": "Дмитрий",
+      "last_name": "Семенов",
+      "middle_name": "Иванович",
+      "password": "test",
+      "email": "fake35@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 35,
+    "fields": {
+      "user_id": 35,
+      "city": "Сочи",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 36,
+    "fields": {
+      "first_name": "Анна",
+      "last_name": "Киселева",
+      "middle_name": "Сергеевна",
+      "password": "test",
+      "email": "fake36@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 36,
+    "fields": {
+      "user_id": 36,
+      "city": "Смоленск",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 37,
+    "fields": {
+      "first_name": "Алексей",
+      "last_name": "Титов",
+      "middle_name": "Петрович",
+      "password": "test",
+      "email": "fake37@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 37,
+    "fields": {
+      "user_id": 37,
+      "city": "Калининград",
+      "time_zone": 2
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 38,
+    "fields": {
+      "first_name": "Марина",
+      "last_name": "Матвеева",
+      "middle_name": "Андреевна",
+      "password": "test",
+      "email": "fake38@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 38,
+    "fields": {
+      "user_id": 38,
+      "city": "Калуга",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 39,
+    "fields": {
+      "first_name": "Сергей",
+      "last_name": "Филатов",
+      "middle_name": "Иванович",
+      "password": "test",
+      "email": "fake39@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 39,
+    "fields": {
+      "user_id": 39,
+      "city": "Чебоксары",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 40,
+    "fields": {
+      "first_name": "Виктория",
+      "last_name": "Давыдова",
+      "middle_name": "Петровна",
+      "password": "test",
+      "email": "fake40@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 40,
+    "fields": {
+      "user_id": 40,
+      "city": "Брянск",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 41,
+    "fields": {
+      "first_name": "Роман",
+      "last_name": "Жуков",
+      "middle_name": "Александрович",
+      "password": "test",
+      "email": "fake41@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 41,
+    "fields": {
+      "user_id": 41,
+      "city": "Томск",
+      "time_zone": 7
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 42,
+    "fields": {
+      "first_name": "Наталья",
+      "last_name": "Беляева",
+      "middle_name": "Викторовна",
+      "password": "test",
+      "email": "fake42@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 42,
+    "fields": {
+      "user_id": 42,
+      "city": "Иваново",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 43,
+    "fields": {
+      "first_name": "Алексей",
+      "last_name": "Лебедев",
+      "middle_name": "Павлович",
+      "password": "test",
+      "email": "fake43@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 43,
+    "fields": {
+      "user_id": 43,
+      "city": "Магнитогорск",
+      "time_zone": 5
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 44,
+    "fields": {
+      "first_name": "Ольга",
+      "last_name": "Горбунова",
+      "middle_name": "Александровна",
+      "password": "test",
+      "email": "fake44@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 44,
+    "fields": {
+      "user_id": 44,
+      "city": "Кемерово",
+      "time_zone": 7
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 45,
+    "fields": {
+      "first_name": "Андрей",
+      "last_name": "Крылов",
+      "middle_name": "Сергеевич",
+      "password": "test",
+      "email": "fake45@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 45,
+    "fields": {
+      "user_id": 45,
+      "city": "Новокузнецк",
+      "time_zone": 7
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 46,
+    "fields": {
+      "first_name": "Ольга",
+      "last_name": "Мартынова",
+      "middle_name": "Викторовна",
+      "password": "test",
+      "email": "fake46@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 46,
+    "fields": {
+      "user_id": 46,
+      "city": "Рязань",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 47,
+    "fields": {
+      "first_name": "Максим",
+      "last_name": "Денисов",
+      "middle_name": "Анатольевич",
+      "password": "test",
+      "email": "fake47@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 47,
+    "fields": {
+      "user_id": 47,
+      "city": "Оренбург",
+      "time_zone": 5
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 48,
+    "fields": {
+      "first_name": "Елена",
+      "last_name": "Федорова",
+      "middle_name": "Сергеевна",
+      "password": "test",
+      "email": "fake48@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 48,
+    "fields": {
+      "user_id": 48,
+      "city": "Кострома",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 49,
+    "fields": {
+      "first_name": "Илья",
+      "last_name": "Гусев",
+      "middle_name": "Андреевич",
+      "password": "test",
+      "email": "fake49@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 49,
+    "fields": {
+      "user_id": 49,
+      "city": "Химки",
+      "time_zone": 3
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 50,
+    "fields": {
+      "first_name": "Марина",
+      "last_name": "Самойлова",
+      "middle_name": "Петровна",
+      "password": "test",
+      "email": "fake50@fake.com",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 50,
+    "fields": {
+      "user_id": 50,
+      "city": "Подольск",
+      "time_zone": 3
+    }
+  }
+]
