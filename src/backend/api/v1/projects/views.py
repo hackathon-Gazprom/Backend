@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
@@ -66,6 +67,13 @@ class TeamViewSet(ReadOnlyModelViewSet):
         if self.action == "retrieve":
             return TeamDetailSerializer
         return TeamSerializer
+
+    def get_queryset(self):
+        qs = cache.get("teams")
+        if qs is None:
+            qs = Team.objects
+            cache.set("teams", qs)
+        return qs.all()
 
 
 class MemberViewSet(ReadOnlyModelViewSet):
