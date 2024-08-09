@@ -2,10 +2,7 @@ from django.core.cache import cache
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
-from rest_framework.generics import (
-    ListCreateAPIView,
-    RetrieveUpdateAPIView,
-)
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
@@ -15,13 +12,13 @@ from .paginations import ProjectsPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
     MemberSerializer,
+    MemberTreeSerializer,
     ProjectDetailSerializer,
     ProjectListSerializer,
     ProjectSerializer,
     ProjectStatusSerializer,
     TeamDetailSerializer,
     TeamSerializer,
-    MemberTreeSerializer,
 )
 
 
