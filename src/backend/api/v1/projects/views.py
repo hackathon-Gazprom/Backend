@@ -2,7 +2,10 @@ from django.core.cache import cache
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateAPIView,
+)
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
@@ -18,6 +21,7 @@ from .serializers import (
     ProjectStatusSerializer,
     TeamDetailSerializer,
     TeamSerializer,
+    MemberTreeSerializer,
 )
 
 
@@ -54,10 +58,6 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
     # def change_owner(self, request, *args, **kwargs):
     #     pass  # TODO: change owner
 
-    # @action(detail=True, methods=["post"])
-    # def change_employee(self, request, *args, **kwargs):
-    #     pass  # TODO: change employer
-
 
 class TeamViewSet(ReadOnlyModelViewSet):
     queryset = Team.objects.all()
@@ -74,6 +74,17 @@ class TeamViewSet(ReadOnlyModelViewSet):
             qs = Team.objects
             cache.set("teams", qs)
         return qs.all()
+
+    @action(
+        detail=True,
+        methods=["put"],
+    )
+    def change_employee(self, request, *args, **kwargs):
+        serializer = MemberTreeSerializer(self.get_object(), data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({"message": "ok"})
 
 
 class MemberViewSet(ReadOnlyModelViewSet):
