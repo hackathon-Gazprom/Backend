@@ -33,6 +33,7 @@ LOCAL_APPS = [
     "apps.general.apps.GeneralConfig",
     "apps.users.apps.UsersConfig",
     "apps.projects.apps.ProjectsConfig",
+    "django_cleanup.apps.CleanupSelectedConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
