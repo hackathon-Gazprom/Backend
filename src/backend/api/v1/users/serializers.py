@@ -116,7 +116,9 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
         return data
 
     def update(self, instance, validated_data):
-        profile_data = validated_data.pop("profile")
+        profile_data = {}
+        if "profile" in validated_data:
+            profile_data = validated_data.pop("profile")
         for key, value in profile_data.items():
             setattr(instance.profile, key, value)
         return super().update(instance, validated_data)
