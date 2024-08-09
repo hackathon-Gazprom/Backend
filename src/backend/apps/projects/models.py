@@ -42,8 +42,7 @@ class Project(CreatedField):
         choices=Status.choices, default=Status.NOT_STARTED
     )
     teams = models.ManyToManyField(
-        "ProjectTeam",
-        related_name="projects",
+        Team, related_name="projects", through="ProjectTeam"
     )
     started = models.DateField("Начало")
     ended = models.DateField("Конец")
