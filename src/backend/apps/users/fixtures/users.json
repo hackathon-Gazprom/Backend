@@ -1167,5 +1167,24 @@
       "user_id": 51,
       "time_zone": 3
     }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 52,
+    "fields": {
+      "password": "admin",
+      "email": "admin@admin.com",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.profile",
+    "pk": 52,
+    "fields": {
+      "user_id": 52,
+      "time_zone": 3
+    }
   }
 ]

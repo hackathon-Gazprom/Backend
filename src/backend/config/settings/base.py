@@ -30,6 +30,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    "apps.general.apps.GeneralConfig",
     "apps.users.apps.UsersConfig",
     "apps.projects.apps.ProjectsConfig",
 ]
@@ -109,7 +110,7 @@ TIME_ZONE = "Europe/Moscow"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -157,7 +158,10 @@ CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://redis:6379/1",
-        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+        "TIMEOUT": 5 * 60,
     },
 }
 

@@ -17,11 +17,6 @@ from .serializers import (
 User = get_user_model()
 
 
-# TODO list users, фильтр (ФИО, должность, отдел?) по 12
-# TODO list users для фильтра (ФИО + должность)
-#  (Подразделение?, должность, город?) по сколько?
-
-
 class UserViewSet(
     generics.ListCreateAPIView,
     generics.RetrieveAPIView,
