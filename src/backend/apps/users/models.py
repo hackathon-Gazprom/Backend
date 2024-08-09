@@ -6,6 +6,7 @@ from django.core.validators import (
     RegexValidator,
 )
 from django.db import models
+from django_cleanup.cleanup import cleanup_select
 
 from .constants import (
     IMAGE_ALLOWED_EXTENSIONS,
@@ -17,6 +18,7 @@ from .constants import (
 from .managers import CustomUserManager
 
 
+@cleanup_select
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     username = None

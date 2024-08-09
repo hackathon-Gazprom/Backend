@@ -11,7 +11,10 @@ class Base64ImageField(fields.ImageField):
         if isinstance(data, str) and data.startswith("data:image"):
             img_format, img_str = data.split(";base64,")
             ext = img_format.split("/")[-1]
-
-            data = ContentFile(base64.b64decode(img_str), name=f"image.{ext}")
+            file_name = self.root.instance.email.split("@", 1)[0]
+            data = ContentFile(
+                base64.b64decode(img_str),
+                name=f"{file_name}.{ext}",
+            )
 
         return super().to_internal_value(data)
