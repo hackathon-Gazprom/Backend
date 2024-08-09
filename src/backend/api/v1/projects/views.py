@@ -12,6 +12,7 @@ from .paginations import ProjectsPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
     MemberSerializer,
+    MemberTreeSerializer,
     ProjectDetailSerializer,
     ProjectListSerializer,
     ProjectSerializer,
@@ -54,10 +55,6 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
     # def change_owner(self, request, *args, **kwargs):
     #     pass  # TODO: change owner
 
-    # @action(detail=True, methods=["post"])
-    # def change_employee(self, request, *args, **kwargs):
-    #     pass  # TODO: change employer
-
 
 class TeamViewSet(ReadOnlyModelViewSet):
     queryset = Team.objects.all()
@@ -74,6 +71,17 @@ class TeamViewSet(ReadOnlyModelViewSet):
             qs = Team.objects
             cache.set("teams", qs)
         return qs.all()
+
+    @action(
+        detail=True,
+        methods=["put"],
+    )
+    def change_employee(self, request, *args, **kwargs):
+        serializer = MemberTreeSerializer(self.get_object(), data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({"message": "ok"})
 
 
 class MemberViewSet(ReadOnlyModelViewSet):

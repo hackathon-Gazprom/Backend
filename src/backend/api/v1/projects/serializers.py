@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.utils import timezone
 from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
@@ -117,6 +118,77 @@ class ProjectStatusSerializer(serializers.ModelSerializer):
             "id",
             "status",
         )
+
+
+class MemberTreeSerializer(serializers.ModelSerializer):
+    member_id = serializers.PrimaryKeyRelatedField(queryset=Member.objects)
+    parent_id = serializers.PrimaryKeyRelatedField(queryset=Member.objects)
+
+    class Meta:
+        model = Team
+        fields = ("member_id", "parent_id")
+
+    def validate(self, attrs):
+        member = attrs.get("member_id")
+        parent = attrs.get("parent_id")
+        errors = defaultdict(list)
+        if member == parent:
+            errors["member_id"].append(
+                "Участник не может быть в подчинении у себя же."
+            )
+
+        if member.parent == parent:
+            errors["member_id"].append(
+                f"Участник уже в подчинении у `{parent}`."
+            )
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return attrs
+
+    def update(self, instance, validated_data):
+        member = validated_data.get("member_id")
+        parent = validated_data.get("parent_id")
+        member_id = member.id
+        parent_id = parent.id
+
+        members = cache.get(f"members:team:{instance.id}")
+        if members is None:
+            members = Member.objects.filter(team=instance).values_list(
+                "parent_id", "id"
+            )
+            cache.set(f"members:team:{instance.id}", members)
+
+        tree = defaultdict(list)
+        for p_id, pk in members:
+            tree[p_id].append(pk)
+
+        if parent_id not in tree:
+            raise serializers.ValidationError(
+                f"Участник `{parent}`, не привязан к этой команде."
+            )
+        children = set()
+
+        def dfs(_id):
+            if _id in children:
+                return
+
+            children.add(_id)
+            for child in tree[_id]:
+                dfs(child)
+
+        for child_id in tree[member_id]:
+            dfs(child_id)
+
+        if parent_id in children:
+            raise serializers.ValidationError(
+                "Нельзя сменить руководителя, который находится в подчинении."
+            )
+        Member.objects.filter(team=instance, id=member_id).update(
+            parent=parent
+        )
+        return instance
 
 
 class MemberSerializer(serializers.ModelSerializer):

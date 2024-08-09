@@ -4,63 +4,63 @@
     "pk": 1,
     "fields": {
       "team_id": 1,
-      "project_id": 15
+      "project_id": 20
     }
   },
   {
     "model": "projects.projectteam",
     "pk": 2,
     "fields": {
-      "team_id": 1,
-      "project_id": 17
+      "team_id": 2,
+      "project_id": 15
     }
   },
   {
     "model": "projects.projectteam",
     "pk": 3,
     "fields": {
-      "team_id": 3,
-      "project_id": 2
+      "team_id": 2,
+      "project_id": 13
     }
   },
   {
     "model": "projects.projectteam",
     "pk": 4,
     "fields": {
-      "team_id": 4,
-      "project_id": 4
+      "team_id": 3,
+      "project_id": 5
     }
   },
   {
     "model": "projects.projectteam",
     "pk": 5,
     "fields": {
-      "team_id": 4,
-      "project_id": 16
+      "team_id": 3,
+      "project_id": 1
     }
   },
   {
     "model": "projects.projectteam",
     "pk": 6,
     "fields": {
-      "team_id": 4,
-      "project_id": 9
+      "team_id": 3,
+      "project_id": 15
     }
   },
   {
     "model": "projects.projectteam",
     "pk": 7,
     "fields": {
-      "team_id": 5,
-      "project_id": 4
+      "team_id": 4,
+      "project_id": 2
     }
   },
   {
     "model": "projects.projectteam",
     "pk": 8,
     "fields": {
-      "team_id": 6,
-      "project_id": 1
+      "team_id": 5,
+      "project_id": 20
     }
   },
   {
@@ -68,7 +68,7 @@
     "pk": 9,
     "fields": {
       "team_id": 6,
-      "project_id": 17
+      "project_id": 20
     }
   },
   {
@@ -76,15 +76,15 @@
     "pk": 10,
     "fields": {
       "team_id": 7,
-      "project_id": 18
+      "project_id": 5
     }
   },
   {
     "model": "projects.projectteam",
     "pk": 11,
     "fields": {
-      "team_id": 7,
-      "project_id": 17
+      "team_id": 8,
+      "project_id": 18
     }
   },
   {
@@ -92,7 +92,7 @@
     "pk": 12,
     "fields": {
       "team_id": 8,
-      "project_id": 4
+      "project_id": 2
     }
   },
   {
@@ -100,47 +100,15 @@
     "pk": 13,
     "fields": {
       "team_id": 8,
-      "project_id": 11
+      "project_id": 19
     }
   },
   {
     "model": "projects.projectteam",
     "pk": 14,
     "fields": {
-      "team_id": 8,
-      "project_id": 3
-    }
-  },
-  {
-    "model": "projects.projectteam",
-    "pk": 15,
-    "fields": {
-      "team_id": 9,
-      "project_id": 9
-    }
-  },
-  {
-    "model": "projects.projectteam",
-    "pk": 16,
-    "fields": {
-      "team_id": 10,
-      "project_id": 9
-    }
-  },
-  {
-    "model": "projects.projectteam",
-    "pk": 17,
-    "fields": {
       "team_id": 10,
       "project_id": 2
-    }
-  },
-  {
-    "model": "projects.projectteam",
-    "pk": 18,
-    "fields": {
-      "team_id": 10,
-      "project_id": 4
     }
   }
 ]
