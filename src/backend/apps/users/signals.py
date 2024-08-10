@@ -16,13 +16,3 @@ def profile_after_save(sender, instance, **kwargs):
     cities = cache.get("cities")
     cities.add(instance.city)
     cache.set("cities", cities, None)
-
-
-def cached_cities():
-    cities = set(
-        Profile.objects.exclude(city="").values_list("city", flat=True)
-    )
-    cache.set("cities", cities, None)
-
-
-cached_cities()

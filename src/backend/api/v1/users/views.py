@@ -5,6 +5,7 @@ from rest_framework import generics, permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from apps.users.models import Profile
 from .paginations import UsersPagination
 from .permissions import IsCurrentUserOrAdminPermission
 from .serializers import (
@@ -77,4 +78,10 @@ class UserViewSet(
         pagination_class=None,
     )
     def cities(self, request):
-        return Response(sorted(cache.get("cities")))
+        cities = cache.get("cities")
+        if cities is None:
+            cities = set(
+                Profile.objects.exclude(city="").values_list("city", flat=True)
+            )
+            cache.set("cities", cities, None)
+        return Response(sorted(cities))
