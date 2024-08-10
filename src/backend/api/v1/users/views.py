@@ -9,12 +9,12 @@ from .paginations import UsersPagination
 from .permissions import IsCurrentUserOrAdminPermission
 from .serializers import (
     AvatarUserSerializer,
+    CitySerializer,
     UserCreateSerializer,
     UserDetailSerializer,
     UserListSerializer,
     UserProfileUpdateSerializer,
     UserSerializer,
-    CitySerializer,
 )
 
 User = get_user_model()
