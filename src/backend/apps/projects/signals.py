@@ -14,3 +14,4 @@ def create_team(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Member)
 def update_member(sender, instance, created, **kwargs):
     cache.delete(f"members:team:{instance.team.id}")
+    cache.delete(f"team:{instance.team.id}")
