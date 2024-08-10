@@ -8,7 +8,7 @@ from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
 from apps.projects.models import Member, Project, Team
 from .filters import MemberFilter
-from .paginations import ProjectsPagination
+from .paginations import MemberPagination, ProjectsPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
     MemberSerializer,
@@ -118,6 +118,7 @@ class TeamViewSet(ReadOnlyModelViewSet):
 
 class MemberViewSet(ReadOnlyModelViewSet):
     queryset = Member.objects.all()
+    pagination_class = MemberPagination
     serializer_class = MemberSerializer
     filter_backends = [SearchFilter, DjangoFilterBackend]
     filterset_class = MemberFilter
