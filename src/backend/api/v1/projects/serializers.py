@@ -13,7 +13,7 @@ from api.v1.projects.constants import (
     WITHOUT_PARENT,
 )
 from apps.projects.constants import GREATER_THAN_ENDED_DATE, LESS_THAN_TODAY
-from apps.projects.models import Member, Project, ProjectTeam, Team
+from apps.projects.models import Member, Project, Team
 
 User = get_user_model()
 
@@ -27,15 +27,6 @@ class ProjectShortSerializer(serializers.ModelSerializer):
         )
 
 
-class ProjectTeamSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProjectTeam
-        fields = ("id",)
-
-    def to_representation(self, instance):
-        return ProjectShortSerializer(instance.project).data
-
-
 class TeamShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
@@ -43,15 +34,6 @@ class TeamShortSerializer(serializers.ModelSerializer):
             "id",
             "name",
         )
-
-
-class TeamProjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProjectTeam
-        fields = ("id",)
-
-    def to_representation(self, instance):
-        return TeamShortSerializer(instance.team).data
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -155,9 +137,7 @@ class MemberTreeSerializer(serializers.ModelSerializer):
 
         members = cache.get(f"members:team:{instance.id}")
         if members is None:
-            members = Member.objects.filter(team=instance).values_list(
-                "parent_id", "id"
-            )
+            members = instance.members.values_list("parent_id", "id")
             cache.set(f"members:team:{instance.id}", members)
 
         tree = defaultdict(list)
@@ -185,9 +165,9 @@ class MemberTreeSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Нельзя сменить руководителя, который находится в подчинении."
             )
-        Member.objects.filter(team=instance, id=member_id).update(
-            parent=parent
-        )
+
+        member.parent = parent
+        member.save()
         return instance
 
 
@@ -236,9 +216,7 @@ class MemberTeamSerializer(serializers.ModelSerializer):
 class TeamSerializer(serializers.ModelSerializer):
     """Сериалайзер команд"""
 
-    projects = ProjectTeamSerializer(
-        many=True, read_only=True, source="project_team"
-    )
+    projects = ProjectShortSerializer(many=True, read_only=True)
 
     class Meta:
         model = Team
@@ -263,13 +241,23 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         else:
             max_deep = min(max(1, max_deep), MAX_DEEP_SUBORDINATES)
 
-        supervisor = Member.objects.get(team=obj, user=obj.owner)
+        supervisor = (
+            Member.objects.select_related("user")
+            .only(
+                "id",
+                "parent_id",
+                "user_id",
+                "user__image",
+            )
+            .get(team=obj, user=obj.owner)
+        )
         children = (
             Member.objects.filter(team=obj, user__is_active=True)
             .exclude(id=supervisor.id)
-            .select_related("user__profile")
+            .select_related("user")
         ).only(
             "id",
+            "parent_id",
             "user_id",
             "user__image",
         )
@@ -277,9 +265,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
 
 
 class ProjectListSerializer(serializers.ModelSerializer):
-    teams = TeamProjectSerializer(
-        many=True, read_only=True, source="project_team"
-    )
+    teams = TeamShortSerializer(many=True, read_only=True)
 
     class Meta:
         model = Project

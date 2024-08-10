@@ -187,3 +187,16 @@ class UserDetailSerializer(UserFullNameMixin, serializers.ModelSerializer):
             )
         ).only("id", "name")
         return ProjectShortSerializer(projects, many=True).data
+
+
+class CitySerializer(serializers.Serializer):
+    cities = serializers.CharField(read_only=True)
+
+    class Meta:
+        swagger_schema_fields = {
+            "example": [
+                "Краснодар",
+                "Пермь",
+                "Саратов",
+            ]
+        }
