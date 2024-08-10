@@ -12,7 +12,9 @@ def test_get_members(user_client):
     response = user_client.get(url_members)
     assert response.status_code == status.HTTP_200_OK
     fields = ("id", "full_name", "department", "position")
-    json_response = response.json()[0]
+    json_response = response.json()
+    assert "results" in json_response
+    json_response = json_response["results"][0]
     errors = [field for field in fields if field not in json_response]
     assert not errors, f"Response must contain:\n" + "\n".join(errors)
     assert len(fields) == len(json_response)
@@ -23,7 +25,7 @@ def test_filter_members(user_client):
     url = url_members + "?city=MyCity&position=Position1"
     response = user_client.get(url)
     assert response.status_code == status.HTTP_200_OK
-    json_response = response.json()
+    json_response = response.json()["results"]
     assert isinstance(json_response, list)
     assert len(json_response) == 1
 
