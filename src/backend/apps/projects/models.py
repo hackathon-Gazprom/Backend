@@ -116,6 +116,7 @@ class Member(models.Model):
                 fields=["team", "user"], name="unique_member"
             ),
         ]
+        default_related_name = "members"
         verbose_name = "Участник"
         verbose_name_plural = "Участники"
 
