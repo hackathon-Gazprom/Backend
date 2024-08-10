@@ -24,6 +24,8 @@ services:
       - staticfiles:/app/staticfiles
       - mediafiles:/app/mediafiles/
     depends_on:
+      redis:
+        condition: service_started
       db:
         condition: service_healthy
 
