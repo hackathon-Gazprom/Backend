@@ -23,7 +23,13 @@ from .serializers import (
 
 
 class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
-    queryset = Project.objects.all()
+    queryset = Project.objects.prefetch_related("teams").only(
+        "id",
+        "name",
+        "description",
+        "started",
+        "ended",
+    )
     pagination_class = ProjectsPagination
     permission_classes = [OwnerOrAdminPermission]
     swagger_tags = ["projects"]
@@ -55,6 +61,14 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
     # def change_owner(self, request, *args, **kwargs):
     #     pass  # TODO: change owner
 
+    # @action(detail=True, methods=["post"], url_path="update_team")
+    # def add_team_to_project(self, request, *args, **kwargs):
+    #     pass  # TODO: add team to project
+    #
+    # @add_team_to_project.mapping.delete
+    # def remove_team_from_project(self, request, *args, **kwargs):
+    #     pass
+
 
 class TeamViewSet(ReadOnlyModelViewSet):
     queryset = Team.objects.all()
@@ -66,11 +80,29 @@ class TeamViewSet(ReadOnlyModelViewSet):
         return TeamSerializer
 
     def get_queryset(self):
-        qs = cache.get("teams")
-        if qs is None:
-            qs = Team.objects
-            cache.set("teams", qs)
-        return qs.all()
+        qs = Team.objects.prefetch_related("projects")
+        if self.action == "retrieve":
+            cached_qs = cache.get(f"team:{self.kwargs.get('pk', 0)}")
+            if cached_qs is None:
+                cached_qs = qs.prefetch_related("members").only(
+                    "id",
+                    "name",
+                    "owner",
+                    "description",
+                )
+                cache.set(f"team:{self.kwargs.get('pk', 0)}", cached_qs)
+            return cached_qs
+        elif self.action == "change_employee":
+            return qs.prefetch_related("members").only("id")
+
+        cached_qs = cache.get("teams")
+        if cached_qs is None:
+            cached_qs = qs.only(
+                "id",
+                "name",
+            )
+            cache.set("teams", cached_qs)
+        return cached_qs
 
     @action(
         detail=True,
@@ -95,3 +127,20 @@ class MemberViewSet(ReadOnlyModelViewSet):
         "^user__middle_name",
     ]
     swagger_tags = ["members"]
+
+    def get_queryset(self):
+        qs = cache.get("members")
+        if qs is None:
+            qs = Member.objects.select_related(
+                "user__profile", "department"
+            ).only(
+                "id",
+                "user__first_name",
+                "user__middle_name",
+                "user__last_name",
+                "department__name",
+                "user__profile__position",
+                "user__profile__city",
+            )
+            cache.set("members", qs)
+        return qs
