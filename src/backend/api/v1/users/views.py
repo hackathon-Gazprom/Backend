@@ -83,5 +83,5 @@ class UserViewSet(
             cities = set(
                 Profile.objects.exclude(city="").values_list("city", flat=True)
             )
-            cache.set("cities", cities, None)
+            cache.set("cities", cities)
         return Response(sorted(cities))
