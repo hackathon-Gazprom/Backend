@@ -291,6 +291,19 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
         )
 
 
+class ProjectTeamUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для отображения в свагере необходимых полей
+    при изменении или удалении команды
+    """
+
+    team_id = serializers.PrimaryKeyRelatedField(queryset=Team.objects)
+
+    class Meta:
+        model = Project
+        fields = ("id", "team_id")
+
+
 def get_tree(children, owner, max_deep, serializer):
     tree = defaultdict(list)
     nodes = defaultdict(list)

@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand, call_command
 
-from apps.projects.models import Member
+from apps.projects.models import Member, ProjectTeam
 
 
 class Command(BaseCommand):
@@ -11,4 +11,5 @@ class Command(BaseCommand):
         call_command("loaddata", "teams.json")
         Member.objects.all().delete()
         call_command("loaddata", "members.json")
+        ProjectTeam.objects.all().delete()
         call_command("loaddata", "project_teams.json")

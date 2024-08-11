@@ -46,7 +46,6 @@ class UserSerializer(UserFullNameMixin, serializers.ModelSerializer):
     """Сериалайзер пользователя"""
 
     profile = ProfileSerializer()
-    # TODO проекты
 
     class Meta:
         model = User
@@ -60,7 +59,7 @@ class UserSerializer(UserFullNameMixin, serializers.ModelSerializer):
 
 class UserListSerializer(UserFullNameMixin, serializers.ModelSerializer):
     position = serializers.CharField(source="profile.position", read_only=True)
-    department = serializers.CharField(default="")  # TODO: department
+    department = serializers.CharField(default="")
 
     class Meta:
         model = User
