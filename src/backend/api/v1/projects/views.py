@@ -1,8 +1,14 @@
 from django.core.cache import cache
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateAPIView,
+    get_object_or_404,
+)
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
@@ -17,6 +23,7 @@ from .serializers import (
     ProjectListSerializer,
     ProjectSerializer,
     ProjectStatusSerializer,
+    ProjectTeamUpdateSerializer,
     TeamDetailSerializer,
     TeamSerializer,
 )
@@ -61,13 +68,21 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
     # def change_owner(self, request, *args, **kwargs):
     #     pass  # TODO: change owner
 
-    # @action(detail=True, methods=["post"], url_path="update_team")
-    # def add_team_to_project(self, request, *args, **kwargs):
-    #     pass  # TODO: add team to project
-    #
-    # @add_team_to_project.mapping.delete
-    # def remove_team_from_project(self, request, *args, **kwargs):
-    #     pass
+    @swagger_auto_schema(query_serializer=ProjectTeamUpdateSerializer())
+    @action(detail=True, methods=["put"], url_path="update_team")
+    def add_team_to_project(self, request, *args, **kwargs):
+        team = get_object_or_404(Team, pk=request.data["team_id"])
+        instance = self.get_object()
+        instance.teams.add(team)
+        return Response(ProjectDetailSerializer(instance).data)
+
+    @swagger_auto_schema(query_serializer=ProjectTeamUpdateSerializer())
+    @add_team_to_project.mapping.delete
+    def remove_team_from_project(self, request, *args, **kwargs):
+        team = get_object_or_404(Team, pk=request.data["team_id"])
+        instance = self.get_object()
+        instance.teams.remove(team)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class TeamViewSet(ReadOnlyModelViewSet):
