@@ -19,7 +19,8 @@
     "fields": {
       "user_id": 1,
       "city": "Москва",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Технический писатель"
     }
   },
   {
@@ -42,7 +43,8 @@
     "fields": {
       "user_id": 2,
       "city": "Санкт-Петербург",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Технический писатель"
     }
   },
   {
@@ -65,7 +67,8 @@
     "fields": {
       "user_id": 3,
       "city": "Новосибирск",
-      "time_zone": 7
+      "time_zone": 7,
+      "position": "Frontend-разработчик"
     }
   },
   {
@@ -88,7 +91,8 @@
     "fields": {
       "user_id": 4,
       "city": "Екатеринбург",
-      "time_zone": 5
+      "time_zone": 5,
+      "position": "Руководитель разработки (Engineering Manager)"
     }
   },
   {
@@ -111,7 +115,8 @@
     "fields": {
       "user_id": 5,
       "city": "Казань",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Руководитель разработки (Engineering Manager)"
     }
   },
   {
@@ -133,8 +138,9 @@
     "pk": 6,
     "fields": {
       "user_id": 6,
-      "city": "Нижний Новгород",
-      "time_zone": 3
+      "city": "НижнийНовгород",
+      "time_zone": 3,
+      "position": "Инженер по обеспечению качества (QA-инженер)"
     }
   },
   {
@@ -157,7 +163,8 @@
     "fields": {
       "user_id": 7,
       "city": "Челябинск",
-      "time_zone": 5
+      "time_zone": 5,
+      "position": "Системный аналитик"
     }
   },
   {
@@ -180,7 +187,8 @@
     "fields": {
       "user_id": 8,
       "city": "Омск",
-      "time_zone": 6
+      "time_zone": 6,
+      "position": "Инженер по безопасности (Security Engineer)"
     }
   },
   {
@@ -203,7 +211,8 @@
     "fields": {
       "user_id": 9,
       "city": "Ростов-на-Дону",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Инженер по безопасности (Security Engineer)"
     }
   },
   {
@@ -226,7 +235,8 @@
     "fields": {
       "user_id": 10,
       "city": "Уфа",
-      "time_zone": 5
+      "time_zone": 5,
+      "position": "Fullstack-разработчик"
     }
   },
   {
@@ -249,7 +259,8 @@
     "fields": {
       "user_id": 11,
       "city": "Красноярск",
-      "time_zone": 7
+      "time_zone": 7,
+      "position": "Мобильный разработчик (iOS/Android)"
     }
   },
   {
@@ -272,7 +283,8 @@
     "fields": {
       "user_id": 12,
       "city": "Пермь",
-      "time_zone": 5
+      "time_zone": 5,
+      "position": "Машинное обучение инженер (ML Engineer)"
     }
   },
   {
@@ -295,7 +307,8 @@
     "fields": {
       "user_id": 13,
       "city": "Волгоград",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Тестировщик (Manual/Automation)"
     }
   },
   {
@@ -318,7 +331,8 @@
     "fields": {
       "user_id": 14,
       "city": "Воронеж",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Технический писатель"
     }
   },
   {
@@ -341,7 +355,8 @@
     "fields": {
       "user_id": 15,
       "city": "Краснодар",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Тестировщик (Manual/Automation)"
     }
   },
   {
@@ -364,7 +379,8 @@
     "fields": {
       "user_id": 16,
       "city": "Саратов",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Frontend-разработчик"
     }
   },
   {
@@ -387,7 +403,8 @@
     "fields": {
       "user_id": 17,
       "city": "Тольятти",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Продуктовый менеджер (Product Manager)"
     }
   },
   {
@@ -410,7 +427,8 @@
     "fields": {
       "user_id": 18,
       "city": "Ижевск",
-      "time_zone": 4
+      "time_zone": 4,
+      "position": "Инженер по обеспечению качества (QA-инженер)"
     }
   },
   {
@@ -433,7 +451,8 @@
     "fields": {
       "user_id": 19,
       "city": "Барнаул",
-      "time_zone": 7
+      "time_zone": 7,
+      "position": "Scrum-мастер"
     }
   },
   {
@@ -456,7 +475,8 @@
     "fields": {
       "user_id": 20,
       "city": "Ульяновск",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Продуктовый менеджер (Product Manager)"
     }
   },
   {
@@ -479,7 +499,8 @@
     "fields": {
       "user_id": 21,
       "city": "Иркутск",
-      "time_zone": 8
+      "time_zone": 8,
+      "position": "Scrum-мастер"
     }
   },
   {
@@ -502,7 +523,8 @@
     "fields": {
       "user_id": 22,
       "city": "Хабаровск",
-      "time_zone": 10
+      "time_zone": 10,
+      "position": "SRE-инженер (Site Reliability Engineer)"
     }
   },
   {
@@ -525,7 +547,8 @@
     "fields": {
       "user_id": 23,
       "city": "Ярославль",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Инженер по данным (Data Engineer)"
     }
   },
   {
@@ -548,7 +571,8 @@
     "fields": {
       "user_id": 24,
       "city": "Владивосток",
-      "time_zone": 10
+      "time_zone": 10,
+      "position": "Технический писатель"
     }
   },
   {
@@ -571,7 +595,8 @@
     "fields": {
       "user_id": 25,
       "city": "Махачкала",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Руководитель разработки (Engineering Manager)"
     }
   },
   {
@@ -594,7 +619,8 @@
     "fields": {
       "user_id": 26,
       "city": "Тюмень",
-      "time_zone": 5
+      "time_zone": 5,
+      "position": "Инженер по обеспечению качества (QA-инженер)"
     }
   },
   {
@@ -617,7 +643,8 @@
     "fields": {
       "user_id": 27,
       "city": "Липецк",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Fullstack-разработчик"
     }
   },
   {
@@ -640,7 +667,8 @@
     "fields": {
       "user_id": 28,
       "city": "Киров",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Технический писатель"
     }
   },
   {
@@ -663,7 +691,8 @@
     "fields": {
       "user_id": 29,
       "city": "Астрахань",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Руководитель разработки (Engineering Manager)"
     }
   },
   {
@@ -686,7 +715,8 @@
     "fields": {
       "user_id": 30,
       "city": "Пенза",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Руководитель разработки (Engineering Manager)"
     }
   },
   {
@@ -709,7 +739,8 @@
     "fields": {
       "user_id": 31,
       "city": "Балашиха",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Инженер по обеспечению качества (QA-инженер)"
     }
   },
   {
@@ -732,7 +763,8 @@
     "fields": {
       "user_id": 32,
       "city": "Тула",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Руководитель разработки (Engineering Manager)"
     }
   },
   {
@@ -755,7 +787,8 @@
     "fields": {
       "user_id": 33,
       "city": "Курск",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Технический писатель"
     }
   },
   {
@@ -778,7 +811,8 @@
     "fields": {
       "user_id": 34,
       "city": "Севастополь",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Инженер по данным (Data Engineer)"
     }
   },
   {
@@ -801,7 +835,8 @@
     "fields": {
       "user_id": 35,
       "city": "Сочи",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Ведущий разработчик (Lead Developer)"
     }
   },
   {
@@ -824,7 +859,8 @@
     "fields": {
       "user_id": 36,
       "city": "Смоленск",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Backend-разработчик"
     }
   },
   {
@@ -847,7 +883,8 @@
     "fields": {
       "user_id": 37,
       "city": "Калининград",
-      "time_zone": 2
+      "time_zone": 2,
+      "position": "Тестировщик (Manual/Automation)"
     }
   },
   {
@@ -870,7 +907,8 @@
     "fields": {
       "user_id": 38,
       "city": "Калуга",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Аналитик данных (Data Analyst)"
     }
   },
   {
@@ -893,7 +931,8 @@
     "fields": {
       "user_id": 39,
       "city": "Чебоксары",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Мобильный разработчик (iOS/Android)"
     }
   },
   {
@@ -916,7 +955,8 @@
     "fields": {
       "user_id": 40,
       "city": "Брянск",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Машинное обучение инженер (ML Engineer)"
     }
   },
   {
@@ -939,7 +979,8 @@
     "fields": {
       "user_id": 41,
       "city": "Томск",
-      "time_zone": 7
+      "time_zone": 7,
+      "position": "Технический писатель"
     }
   },
   {
@@ -962,7 +1003,8 @@
     "fields": {
       "user_id": 42,
       "city": "Иваново",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Тестировщик (Manual/Automation)"
     }
   },
   {
@@ -985,7 +1027,8 @@
     "fields": {
       "user_id": 43,
       "city": "Магнитогорск",
-      "time_zone": 5
+      "time_zone": 5,
+      "position": "Тестировщик (Manual/Automation)"
     }
   },
   {
@@ -1008,7 +1051,8 @@
     "fields": {
       "user_id": 44,
       "city": "Кемерово",
-      "time_zone": 7
+      "time_zone": 7,
+      "position": "Backend-разработчик"
     }
   },
   {
@@ -1031,7 +1075,8 @@
     "fields": {
       "user_id": 45,
       "city": "Новокузнецк",
-      "time_zone": 7
+      "time_zone": 7,
+      "position": "Архитектор программного обеспечения"
     }
   },
   {
@@ -1054,7 +1099,8 @@
     "fields": {
       "user_id": 46,
       "city": "Рязань",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Ведущий разработчик (Lead Developer)"
     }
   },
   {
@@ -1077,7 +1123,8 @@
     "fields": {
       "user_id": 47,
       "city": "Оренбург",
-      "time_zone": 5
+      "time_zone": 5,
+      "position": "Инженер по данным (Data Engineer)"
     }
   },
   {
@@ -1100,7 +1147,8 @@
     "fields": {
       "user_id": 48,
       "city": "Кострома",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Мобильный разработчик (iOS/Android)"
     }
   },
   {
@@ -1123,7 +1171,8 @@
     "fields": {
       "user_id": 49,
       "city": "Химки",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "Машинное обучение инженер (ML Engineer)"
     }
   },
   {
@@ -1146,7 +1195,8 @@
     "fields": {
       "user_id": 50,
       "city": "Подольск",
-      "time_zone": 3
+      "time_zone": 3,
+      "position": "UI/UX-дизайнер"
     }
   },
   {
@@ -1165,7 +1215,9 @@
     "pk": 51,
     "fields": {
       "user_id": 51,
-      "time_zone": 3
+      "city": "Подольск",
+      "time_zone": 3,
+      "position": "Продуктовый менеджер (Product Manager)"
     }
   },
   {
@@ -1184,7 +1236,9 @@
     "pk": 52,
     "fields": {
       "user_id": 52,
-      "time_zone": 3
+      "city": "Подольск",
+      "time_zone": 3,
+      "position": "SRE-инженер (Site Reliability Engineer)"
     }
   }
 ]
