@@ -20,19 +20,18 @@ def test_get_members(user_client):
     assert len(fields) == len(json_response)
 
 
+@pytest.mark.parametrize(
+    "search, expected_fn",
+    [
+        ("?city=MyCity&position=Position1", lambda json: len(json) == 1),
+        ("?search=И&position=Position1", lambda json: len(json) > 0),
+    ],
+)
 @pytest.mark.usefixtures("test_members_with_profile", "test_member")
-def test_filter_members(user_client):
-    url = url_members + "?city=MyCity&position=Position1"
+def test_filter_members(user_client, search, expected_fn):
+    url = url_members + search
     response = user_client.get(url)
     assert response.status_code == status.HTTP_200_OK
     json_response = response.json()["results"]
     assert isinstance(json_response, list)
-    assert len(json_response) == 1
-
-
-@pytest.mark.usefixtures("test_members_with_profile", "test_member")
-def test_search_and_filter_members(user_client):
-    url = url_members + "?search=И&position=Position1"
-    response = user_client.get(url)
-    json_response = response.json()
-    assert len(json_response) > 0, json_response
+    assert expected_fn(json_response)

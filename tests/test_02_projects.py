@@ -9,6 +9,7 @@ from .utils import API_PREFIX
 url_projects = f"{API_PREFIX}/projects/"
 url_project_by_id = url_projects + "{id}/"
 url_project_change_status_by_id = url_project_by_id + "change_status/"
+url_project_update_team_by_id = url_project_by_id + "update_team/"
 
 
 @pytest.mark.usefixtures("create_projects")
@@ -98,9 +99,44 @@ def test_change_status(
     assert test_project.status == current_status
 
 
+@pytest.mark.parametrize(
+    "current_client, expected_status",
+    (
+        (pytest.lazy_fixture("admin_client"), status.HTTP_200_OK),
+        (pytest.lazy_fixture("user_client"), status.HTTP_403_FORBIDDEN),
+    ),
+)
+@pytest.mark.usefixtures("test_teams")
+def test_add_team_to_project(current_client, expected_status, test_project):
+    data = {"team_id": 3}
+    response = current_client.put(
+        url_project_update_team_by_id.format(id=test_project.id), data=data
+    )
+    assert response.status_code == expected_status
+
+
+@pytest.mark.parametrize(
+    "current_client, expected_status, expected_change",
+    (
+        (pytest.lazy_fixture("admin_client"), status.HTTP_204_NO_CONTENT, 1),
+        (pytest.lazy_fixture("user_client"), status.HTTP_403_FORBIDDEN, 0),
+    ),
+)
+def test_delete_team_from_project(
+    current_client,
+    expected_status,
+    expected_change,
+    test_project,
+    test_team,
+):
+    data = {"team_id": test_team.id}
+    teams_count = test_project.teams.count()
+    response = current_client.delete(
+        url_project_update_team_by_id.format(id=test_project.id), data=data
+    )
+    assert response.status_code == expected_status
+    assert test_project.teams.count() == teams_count - expected_change
+
+
 def test_change_project_owner():
     pass  # TODO: check change owner
-
-
-def test_change_employee():
-    pass  # TODO: check change employer
