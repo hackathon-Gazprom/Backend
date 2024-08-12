@@ -10,6 +10,7 @@ from .serializers import (
     UserCreateSerializer,
     UserDetailSerializer,
     UserListSerializer,
+    UserMeSerializer,
     UserProfileUpdateSerializer,
     UserSerializer,
 )
@@ -45,7 +46,8 @@ class UserViewSet(
 
     @action(detail=False, methods=["get"])
     def me(self, request):
-        return Response(UserSerializer(request.user).data)
+        serializer = UserMeSerializer(request.user)
+        return Response(serializer.data)
 
     @me.mapping.patch
     def update_me(self, request):

@@ -3,6 +3,7 @@ import re
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions
+from django.core.cache import cache
 from rest_framework import serializers
 
 from api.fields import Base64ImageField
@@ -13,7 +14,8 @@ from api.v1.users.constants import (
     ERROR_TIMEZONE,
     TELEGRAM_PATTERN,
 )
-from apps.projects.models import Member, Project
+from apps.general.constants import CacheKey
+from apps.projects.models import Member, Project, Team
 from apps.users.constants import MAX_TIMEZONE, MIN_TIMEZONE, RE_PHONE
 from apps.users.models import Profile
 
@@ -55,6 +57,33 @@ class UserSerializer(UserFullNameMixin, serializers.ModelSerializer):
             "image",
             "profile",
         )
+
+
+class UserMeSerializer(UserFullNameMixin, serializers.ModelSerializer):
+    profile = ProfileSerializer()
+    projects = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "full_name",
+            "image",
+            "profile",
+            "projects",
+        )
+
+    def get_projects(self, obj):
+        my_projects = cache.get(CacheKey.MY_PROJECTS.format(user_id=obj.id))
+        if my_projects is None:
+            my_projects = set(
+                Team.objects.filter(
+                    members__user=obj,
+                    projects__status=Project.Status.STARTED,
+                ).values_list("projects__name", flat=True)
+            )
+            cache.set(CacheKey.MY_PROJECTS.format(user_id=obj.id), my_projects)
+        return sorted(my_projects)
 
 
 class UserListSerializer(UserFullNameMixin, serializers.ModelSerializer):

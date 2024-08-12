@@ -73,6 +73,7 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
     @action(detail=True, methods=["put"], url_path="update_team")
     def add_team_to_project(self, request, *args, **kwargs):
         team = get_object_or_404(Team, pk=request.data["team_id"])
+        self._remove_cached_users_project(team)
         instance = self.get_object()
         instance.teams.add(team)
         return Response(ProjectDetailSerializer(instance).data)
@@ -81,9 +82,16 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
     @add_team_to_project.mapping.delete
     def remove_team_from_project(self, request, *args, **kwargs):
         team = get_object_or_404(Team, pk=request.data["team_id"])
+        self._remove_cached_users_project(team)
         instance = self.get_object()
         instance.teams.remove(team)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def _remove_cached_users_project(self, team):
+        [
+            cache.delete(CacheKey.MY_PROJECTS.format(user_id=user_id))
+            for user_id in team.members.values_list("user_id", flat=True)
+        ]
 
 
 class TeamViewSet(ReadOnlyModelViewSet):
@@ -98,7 +106,9 @@ class TeamViewSet(ReadOnlyModelViewSet):
     def get_queryset(self):
         qs = Team.objects.prefetch_related("projects")
         if self.action == "retrieve":
-            cache_key = CacheKey.TEAM_BY_ID % self.kwargs.get("pk")
+            cache_key = CacheKey.TEAM_BY_ID.format(
+                team_id=self.kwargs.get("pk")
+            )
             cached_qs = cache.get(cache_key)
             if cached_qs is None:
                 cached_qs = qs.prefetch_related("members").only(
