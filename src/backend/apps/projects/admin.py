@@ -35,6 +35,7 @@ class MemberAdmin(admin.ModelAdmin):
     raw_id_fields = ("team", "user", "parent")
     list_filter = ("team_id",)
     search_fields = ("team_id",)
+    ordering = ("user__last_name",)
     team_search_fields = "team_id"
 
     @admin.display(ordering="user.last_name")
@@ -45,7 +46,7 @@ class MemberAdmin(admin.ModelAdmin):
         term_queries = []
         for bit in smart_split(search_term):
             or_queries = models.Q.create(
-                [("team_id", bit)],
+                [(self.team_search_fields, bit)],
                 connector=models.Q.OR,
             )
             term_queries.append(or_queries)
