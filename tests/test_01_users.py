@@ -39,7 +39,7 @@ def test_user_me(user_client):
     response = user_client.get(url_me)
     assert response.status_code == status.HTTP_200_OK
 
-    check_user_response(response.json())
+    check_user_response(response.json(), USER_PROJECT_FIELDS)
 
 
 def test_patch_me(user_client):

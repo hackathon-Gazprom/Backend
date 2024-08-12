@@ -1,19 +1,16 @@
 from django.contrib.auth import get_user_model
-from django.core.cache import cache
-from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from apps.users.models import Profile
 from .paginations import UsersPagination
 from .permissions import IsCurrentUserOrAdminPermission
 from .serializers import (
     AvatarUserSerializer,
-    CitySerializer,
     UserCreateSerializer,
     UserDetailSerializer,
     UserListSerializer,
+    UserMeSerializer,
     UserProfileUpdateSerializer,
     UserSerializer,
 )
@@ -42,8 +39,6 @@ class UserViewSet(
     def get_permissions(self):
         if self.action == "create":
             permissions_classes = [permissions.IsAdminUser]
-        elif self.action == "cities":
-            permissions_classes = [permissions.AllowAny]
         else:
             permissions_classes = [IsCurrentUserOrAdminPermission]
 
@@ -51,7 +46,8 @@ class UserViewSet(
 
     @action(detail=False, methods=["get"])
     def me(self, request):
-        return Response(UserSerializer(request.user).data)
+        serializer = UserMeSerializer(request.user)
+        return Response(serializer.data)
 
     @me.mapping.patch
     def update_me(self, request):
@@ -68,20 +64,3 @@ class UserViewSet(
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
-
-    @swagger_auto_schema(
-        responses={200: CitySerializer(many=True)},
-    )
-    @action(
-        detail=False,
-        methods=["get"],
-        pagination_class=None,
-    )
-    def cities(self, request):
-        cities = cache.get("cities")
-        if cities is None:
-            cities = set(
-                Profile.objects.exclude(city="").values_list("city", flat=True)
-            )
-            cache.set("cities", cities)
-        return Response(sorted(cities))

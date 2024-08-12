@@ -11,6 +11,7 @@ class ProjectForm(forms.ModelForm):
         fields = [
             "name",
             "owner",
+            "status",
             "description",
             "started",
             "ended",

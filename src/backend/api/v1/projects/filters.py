@@ -12,6 +12,10 @@ class MemberFilter(FilterSet):
         field_name="user__profile__city",
         lookup_expr="iexact",
     )
+    department = CharFilter(
+        field_name="department__name",
+        lookup_expr="iexact",
+    )
 
     class Meta:
         model = Member

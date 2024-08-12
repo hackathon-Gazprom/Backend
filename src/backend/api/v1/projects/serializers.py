@@ -12,6 +12,7 @@ from api.v1.projects.constants import (
     SUBORDINATES,
     WITHOUT_PARENT,
 )
+from apps.general.constants import CacheKey
 from apps.projects.constants import GREATER_THAN_ENDED_DATE, LESS_THAN_TODAY
 from apps.projects.models import Member, Project, Team
 
@@ -135,10 +136,15 @@ class MemberTreeSerializer(serializers.ModelSerializer):
         member_id = member.id
         parent_id = parent.id
 
-        members = cache.get(f"members:team:{instance.id}")
+        members = cache.get(
+            CacheKey.MEMBERS_TEAM_BY_ID.format(team_id=instance.id)
+        )
         if members is None:
             members = instance.members.values_list("parent_id", "id")
-            cache.set(f"members:team:{instance.id}", members)
+            cache.set(
+                CacheKey.MEMBERS_TEAM_BY_ID.format(team_id=instance.id),
+                members,
+            )
 
         tree = defaultdict(list)
         for p_id, pk in members:
