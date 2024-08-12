@@ -12,6 +12,7 @@ from rest_framework.generics import (
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 
+from apps.general.constants import CacheKey
 from apps.projects.models import Member, Project, Team
 from .filters import MemberFilter
 from .paginations import MemberPagination, ProjectsPagination
@@ -97,7 +98,8 @@ class TeamViewSet(ReadOnlyModelViewSet):
     def get_queryset(self):
         qs = Team.objects.prefetch_related("projects")
         if self.action == "retrieve":
-            cached_qs = cache.get(f"team:{self.kwargs.get('pk', 0)}")
+            cache_key = CacheKey.TEAM_BY_ID % self.kwargs.get("pk", 0)
+            cached_qs = cache.get(cache_key)
             if cached_qs is None:
                 cached_qs = qs.prefetch_related("members").only(
                     "id",
@@ -105,18 +107,18 @@ class TeamViewSet(ReadOnlyModelViewSet):
                     "owner",
                     "description",
                 )
-                cache.set(f"team:{self.kwargs.get('pk', 0)}", cached_qs)
+                cache.set(cache_key, cached_qs)
             return cached_qs
         elif self.action == "change_employee":
             return qs.prefetch_related("members").only("id")
 
-        cached_qs = cache.get("teams")
+        cached_qs = cache.get(CacheKey.TEAMS)
         if cached_qs is None:
             cached_qs = qs.only(
                 "id",
                 "name",
             )
-            cache.set("teams", cached_qs)
+            cache.set(CacheKey.TEAMS, cached_qs)
         return cached_qs
 
     @action(
@@ -145,7 +147,7 @@ class MemberViewSet(ReadOnlyModelViewSet):
     swagger_tags = ["members"]
 
     def get_queryset(self):
-        qs = cache.get("members")
+        qs = cache.get(CacheKey.MEMBERS)
         if qs is None:
             qs = Member.objects.select_related(
                 "user__profile", "department"
@@ -158,5 +160,5 @@ class MemberViewSet(ReadOnlyModelViewSet):
                 "user__profile__position",
                 "user__profile__city",
             )
-            cache.set("members", qs)
+            cache.set(CacheKey.MEMBERS, qs)
         return qs

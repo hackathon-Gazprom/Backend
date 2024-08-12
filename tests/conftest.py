@@ -161,7 +161,7 @@ def test_member(test_teams, test_departments, user_with_profile):
     return Member.objects.create(
         team=random.choice(test_teams),
         user=user_with_profile,
-        department=random.choice(test_departments),
+        department=test_departments[0],
     )
 
 

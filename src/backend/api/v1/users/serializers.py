@@ -58,6 +58,8 @@ class UserSerializer(UserFullNameMixin, serializers.ModelSerializer):
 
 
 class UserListSerializer(UserFullNameMixin, serializers.ModelSerializer):
+    """Сериалайзер для списка пользователей"""
+
     position = serializers.CharField(source="profile.position", read_only=True)
     department = serializers.CharField(default="")
 
@@ -156,6 +158,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class AvatarUserSerializer(serializers.ModelSerializer):
+    """Сериалайзер для смены аватара"""
+
     image = Base64ImageField()
 
     class Meta:
@@ -186,16 +190,3 @@ class UserDetailSerializer(UserFullNameMixin, serializers.ModelSerializer):
             )
         ).only("id", "name")
         return ProjectShortSerializer(projects, many=True).data
-
-
-class CitySerializer(serializers.Serializer):
-    cities = serializers.CharField(read_only=True)
-
-    class Meta:
-        swagger_schema_fields = {
-            "example": [
-                "Краснодар",
-                "Пермь",
-                "Саратов",
-            ]
-        }

@@ -25,6 +25,7 @@ def test_get_members(user_client):
     [
         ("?city=MyCity&position=Position1", lambda json: len(json) == 1),
         ("?search=И&position=Position1", lambda json: len(json) > 0),
+        ("?department=Department 1", lambda json: len(json) > 0),
     ],
 )
 @pytest.mark.usefixtures("test_members_with_profile", "test_member")
