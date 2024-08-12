@@ -50,11 +50,35 @@ git clone git@github.com:hackathon-Gazprom/Backend.git
 ```
 
 ```shell
+# установить и активировать виртуальное окружение
 python -m venv venv
 source .\venv\Scripts\activate
 
+# перейти в папку с приложением
 cd .\src\backend\
+
+# заполнить базу данных моковскими данными
+python manage.py add_fake_data
+
+# запустить сервер
 python manage.py runserver
+```
+
+## Запуск через Docker
+
+> [!IMPORTANT]
+> Необходимо создать файл `.env` с переменными окружения в папке `infra`.</br>
+> Пример файла [.env.example](infra/.env.example)
+
+```shell
+# перейти в папку с докером
+cd .\infra\
+
+# запустить докер
+docker compose up --build -d
+
+# заполнить базу данных моковскими данными
+docker compose exec backend python manage.py add_fake_data
 ```
 
 ## Автор:
