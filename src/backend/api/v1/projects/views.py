@@ -98,7 +98,7 @@ class TeamViewSet(ReadOnlyModelViewSet):
     def get_queryset(self):
         qs = Team.objects.prefetch_related("projects")
         if self.action == "retrieve":
-            cache_key = CacheKey.TEAM_BY_ID % self.kwargs.get("pk", 0)
+            cache_key = CacheKey.TEAM_BY_ID % self.kwargs.get("pk")
             cached_qs = cache.get(cache_key)
             if cached_qs is None:
                 cached_qs = qs.prefetch_related("members").only(
