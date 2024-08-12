@@ -13,6 +13,7 @@ def user_signal(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Profile)
 def profile_after_save(sender, instance, **kwargs):
-    cities = cache.get("cities", set())
-    cities.add(instance.city)
-    cache.set("cities", cities)
+    cities = cache.get("cities")
+    if cities:
+        cities.add(instance.city)
+        cache.set("cities", cities)
