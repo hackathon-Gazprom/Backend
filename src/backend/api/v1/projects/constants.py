@@ -1,4 +1,3 @@
-PROJECT_PAGE_SIZE = 12
 MEMBER_PAGE_SIZE = 12
 SUBORDINATES = "subordinates"
 WITHOUT_PARENT = "without_parent"
