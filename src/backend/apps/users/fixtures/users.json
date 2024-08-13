@@ -1226,8 +1226,8 @@
     "fields": {
       "password": "admin",
       "email": "admin@admin.com",
-      "first_name": "Иванов",
-      "last_name": "Геннадий",
+      "last_name": "Иванов",
+      "first_name": "Геннадий",
       "middle_name": "Викторович",
       "is_superuser": true,
       "is_staff": true,
