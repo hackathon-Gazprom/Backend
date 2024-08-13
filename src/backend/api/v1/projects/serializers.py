@@ -279,6 +279,8 @@ class ProjectListSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "teams",
+            "started",
+            "ended",
         )
 
 
