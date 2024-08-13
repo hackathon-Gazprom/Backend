@@ -1,7 +1,7 @@
 from django.core.cache import cache
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import status
+from rest_framework import filters, status
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import (
@@ -40,6 +40,8 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
     )
     pagination_class = ProjectsPagination
     permission_classes = [OwnerOrAdminPermission]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ("name",)
     swagger_tags = ["projects"]
 
     def get_serializer_class(self):
@@ -48,6 +50,19 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
         elif self.action == "list":
             return ProjectListSerializer
         return ProjectSerializer
+
+    def get_queryset(self):
+        qs = cache.get(CacheKey.PROJECTS)
+        if qs is None:
+            qs = Project.objects.prefetch_related("teams").only(
+                "id",
+                "name",
+                "description",
+                "started",
+                "ended",
+            )
+            cache.set(CacheKey.PROJECTS, qs)
+        return qs
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -96,6 +111,8 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
 
 class TeamViewSet(ReadOnlyModelViewSet):
     queryset = Team.objects.all()
+    filter_backends = [filters.SearchFilter]
+    search_fields = ("name",)
     swagger_tags = ["teams"]
 
     def get_serializer_class(self):

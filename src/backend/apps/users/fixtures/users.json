@@ -1226,6 +1226,10 @@
     "fields": {
       "password": "admin",
       "email": "admin@admin.com",
+      "first_name": "Иванов",
+      "last_name": "Геннадий",
+      "middle_name": "Викторович",
+      "image": "admin.jpeg",
       "is_superuser": true,
       "is_staff": true,
       "is_active": true
@@ -1237,8 +1241,11 @@
     "fields": {
       "user_id": 52,
       "city": "Подольск",
+      "birthday": "1986-06-18",
       "time_zone": 3,
-      "position": "SRE-инженер (Site Reliability Engineer)"
+      "position": "SRE-инженер (Site Reliability Engineer)",
+      "telegram": "@telegram",
+      "phone": "89305557535"
     }
   }
 ]
