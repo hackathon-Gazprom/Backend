@@ -1229,7 +1229,6 @@
       "first_name": "Иванов",
       "last_name": "Геннадий",
       "middle_name": "Викторович",
-      "image": "admin.jpeg",
       "is_superuser": true,
       "is_staff": true,
       "is_active": true
