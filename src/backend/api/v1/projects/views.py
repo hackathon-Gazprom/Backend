@@ -15,7 +15,7 @@ from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 from apps.general.constants import CacheKey
 from apps.projects.models import Member, Project, Team
 from .filters import MemberFilter
-from .paginations import MemberPagination, ProjectsPagination
+from .paginations import MemberPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
     MemberSerializer,
@@ -38,7 +38,6 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
         "started",
         "ended",
     )
-    pagination_class = ProjectsPagination
     permission_classes = [OwnerOrAdminPermission]
     filter_backends = [filters.SearchFilter]
     search_fields = ("name",)

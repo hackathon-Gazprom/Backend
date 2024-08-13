@@ -2,7 +2,6 @@ import pytest
 from django.utils import timezone
 from rest_framework import status
 
-from api.v1.projects.constants import PROJECT_PAGE_SIZE
 from apps.projects.models import Project
 from .utils import API_PREFIX
 
@@ -15,19 +14,15 @@ url_project_update_team_by_id = url_project_by_id + "update_team/"
 @pytest.mark.usefixtures("create_projects")
 def test_get_all_projects(admin_client):
     response = admin_client.get(url_projects)
+    assert response.status_code == status.HTTP_200_OK
     json_response = response.json()
-    assert response.status_code == status.HTTP_200_OK
-    assert len(json_response["results"]) == PROJECT_PAGE_SIZE
-
-    response = admin_client.get(json_response["next"])
-    assert response.status_code == status.HTTP_200_OK
-    assert len(response.json()["results"]) == 8
+    assert len(json_response) == 20
 
 
 @pytest.mark.usefixtures("test_team")
 def test_projects(admin_client):
     response = admin_client.get(url_projects)
-    json_response = response.json()["results"][0]
+    json_response = response.json()[0]
     teams = json_response["teams"]
     assert isinstance(teams, list)
     team = teams[0]
