@@ -20,8 +20,7 @@ from .permissions import OwnerOrAdminPermission
 from .serializers import (
     MemberSerializer,
     MemberTreeSerializer,
-    ProjectDetailSerializer,
-    ProjectListSerializer,
+    ProjectGetSerializer,
     ProjectSerializer,
     ProjectStatusSerializer,
     ProjectTeamUpdateSerializer,
@@ -44,10 +43,8 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
     swagger_tags = ["projects"]
 
     def get_serializer_class(self):
-        if self.action == "retrieve":
-            return ProjectDetailSerializer
-        elif self.action == "list":
-            return ProjectListSerializer
+        if self.request.method == "GET":
+            return ProjectGetSerializer
         return ProjectSerializer
 
     def get_queryset(self):
@@ -90,7 +87,7 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
         self._remove_cached_users_project(team)
         instance = self.get_object()
         instance.teams.add(team)
-        return Response(ProjectDetailSerializer(instance).data)
+        return Response(ProjectGetSerializer(instance).data)
 
     @swagger_auto_schema(query_serializer=ProjectTeamUpdateSerializer())
     @add_team_to_project.mapping.delete
