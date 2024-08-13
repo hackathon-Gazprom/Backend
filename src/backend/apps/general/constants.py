@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class CacheKey:
+    PROJECTS = "projects"
     MY_PROJECTS = "my_projects:{user_id}"
     POSITIONS = "positions"
     CITIES = "cities"

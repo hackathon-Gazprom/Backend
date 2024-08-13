@@ -9,7 +9,11 @@ from django.db import models
 from django_cleanup.cleanup import cleanup_select
 
 from .constants import (
+    CITY_MAX_LENGTH,
+    DEFAULT_TIME_ZONE,
     IMAGE_ALLOWED_EXTENSIONS,
+    MAX_LENGTH,
+    MAX_LENGTH_NAME,
     MAX_PHONE_LENGTH,
     MAX_TIMEZONE,
     MIN_TIMEZONE,
@@ -22,7 +26,15 @@ from .managers import CustomUserManager
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     username = None
-    middle_name = models.CharField("Отчество", max_length=150, blank=True)
+    first_name = models.CharField(
+        "Фамилия", max_length=MAX_LENGTH_NAME, blank=True, db_index=True
+    )
+    last_name = models.CharField(
+        "Имя", max_length=MAX_LENGTH_NAME, blank=True, db_index=True
+    )
+    middle_name = models.CharField(
+        "Отчество", max_length=MAX_LENGTH_NAME, blank=True, db_index=True
+    )
     image = models.ImageField(
         upload_to="images/users/",
         validators=[FileExtensionValidator(IMAGE_ALLOWED_EXTENSIONS)],
@@ -54,19 +66,25 @@ class Profile(models.Model):
     time_zone = models.SmallIntegerField(
         "Часовой пояс",
         blank=True,
-        default=3,
+        default=DEFAULT_TIME_ZONE,
         validators=[
             MinValueValidator(MIN_TIMEZONE),
             MaxValueValidator(MAX_TIMEZONE),
         ],
     )
     position = models.CharField(
-        "Должность", max_length=255, null=True, blank=True
+        "Должность",
+        max_length=MAX_LENGTH,
+        null=True,
+        blank=True,
+        db_index=True,
     )
     telegram = models.CharField(
-        "Telegram", max_length=255, blank=True, null=True
+        "Telegram", max_length=MAX_LENGTH, blank=True, null=True
     )
-    city = models.CharField("Город", max_length=25, blank=True)
+    city = models.CharField(
+        "Город", max_length=CITY_MAX_LENGTH, blank=True, db_index=True
+    )
     phone = models.CharField(
         "Телефон",
         max_length=MAX_PHONE_LENGTH,

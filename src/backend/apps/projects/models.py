@@ -2,13 +2,13 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from apps.general.models import CreatedField
-from .constants import STATUS_DISPLAY
+from .constants import MAX_LENGTH, PROJECT_MAX_LENGTH, STATUS_DISPLAY
 
 User = get_user_model()
 
 
 class Team(models.Model):
-    name = models.CharField("Название", max_length=150, db_index=True)
+    name = models.CharField("Название", max_length=MAX_LENGTH, db_index=True)
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, verbose_name="Автор"
     )
@@ -30,7 +30,9 @@ class Project(CreatedField):
         STARTED = 2, "Начат"
         ENDED = 3, "Закончен"
 
-    name = models.CharField("Название", max_length=255)
+    name = models.CharField(
+        "Название", max_length=PROJECT_MAX_LENGTH, db_index=True
+    )
     description = models.TextField("Описание", blank=True)
     owner = models.ForeignKey(
         User,
@@ -82,7 +84,9 @@ class ProjectTeam(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField("Отдел", max_length=150, unique=True)
+    name = models.CharField(
+        "Отдел", max_length=MAX_LENGTH, unique=True, db_index=True
+    )
 
     class Meta:
         verbose_name = "Отдел"
