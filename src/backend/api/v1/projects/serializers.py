@@ -270,21 +270,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         return get_tree(children, supervisor, max_deep, MemberTeamSerializer)
 
 
-class ProjectListSerializer(serializers.ModelSerializer):
-    teams = TeamShortSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Project
-        fields = (
-            "id",
-            "name",
-            "teams",
-            "started",
-            "ended",
-        )
-
-
-class ProjectDetailSerializer(serializers.ModelSerializer):
+class ProjectGetSerializer(serializers.ModelSerializer):
     teams = TeamShortSerializer(many=True, read_only=True)
 
     class Meta:
