@@ -124,14 +124,10 @@ def test_delete_team_from_project(
     test_project,
     test_team,
 ):
-    data = {"team_id": test_team.id}
+    data = {"team_id": test_team[0].id}
     teams_count = test_project.teams.count()
     response = current_client.delete(
         url_project_update_team_by_id.format(id=test_project.id), data=data
     )
     assert response.status_code == expected_status
     assert test_project.teams.count() == teams_count - expected_change
-
-
-def test_change_project_owner():
-    pass  # TODO: check change owner
