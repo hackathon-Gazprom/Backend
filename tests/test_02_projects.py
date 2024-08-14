@@ -124,7 +124,7 @@ def test_delete_team_from_project(
     test_project,
     test_team,
 ):
-    data = {"team_id": test_team.id}
+    data = {"team_id": test_team[0].id}
     teams_count = test_project.teams.count()
     response = current_client.delete(
         url_project_update_team_by_id.format(id=test_project.id), data=data

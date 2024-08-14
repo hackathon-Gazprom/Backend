@@ -120,7 +120,7 @@ def create_users(django_user_model, password):
 @pytest.fixture
 def test_departments():
     return Department.objects.bulk_create(
-        [Department(name=f"Department {i+1}") for i in range(5)]
+        [Department(name=f"Department {i+1}") for i in range(10)]
     )
 
 

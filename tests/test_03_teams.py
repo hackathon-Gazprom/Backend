@@ -5,7 +5,7 @@ from .utils import API_PREFIX
 
 url_teams = f"{API_PREFIX}/teams/"
 url_teams_by_id = url_teams + "{id}/"
-url_add_member_to_team = url_teams_by_id + "add_member/"
+url_add_member_to_team = url_teams_by_id + "member/"
 
 
 @pytest.mark.usefixtures("test_team")
@@ -38,12 +38,14 @@ def test_team(user_client, test_team):
         (pytest.lazy_fixture("user_client"), status.HTTP_403_FORBIDDEN),
     ),
 )
+@pytest.mark.usefixtures("test_departments")
+@pytest.mark.django_db
 def test_add_user_to_team(
     current_client, expected_status, user_with_profile, test_team
 ):
     data = {"user_id": user_with_profile.id, "parent_id": test_team[1].id}
     response = current_client.post(
-        url_add_member_to_team.format(id=test_team[0].id), data=data
+        url_add_member_to_team.format(id=test_team[0].id),
+        data=data,
     )
-    print(response.json())
     assert response.status_code == expected_status
