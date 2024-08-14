@@ -342,5 +342,4 @@ def get_tree(children, owner, max_deep, serializer):
     return res
 
 
-# todo: создать первую команду, исключить ее из команд
 # todo: из конструктора команды исключить людей состоящих в команде

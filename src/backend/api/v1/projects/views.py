@@ -167,9 +167,9 @@ class TeamViewSet(ReadOnlyModelViewSet):
         serializer = MemberCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         team = self.get_object()
-        # TODO: затычка `department=random.randrange(1, 10)`
+        # TODO: затычка `department=random.randrange(18, 28)`
         #  в дальнейшем продумать в какой момент выбирается отдел
-        serializer.save(team=team, department_id=random.randrange(1, 10))
+        serializer.save(team=team, department_id=random.randrange(18, 28))
         return Response({"message": "ok"})
 
 
