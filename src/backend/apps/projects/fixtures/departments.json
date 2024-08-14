@@ -3,208 +3,327 @@
     "model": "projects.department",
     "pk": 1,
     "fields": {
-      "name": "Backend"
+      "name": "Генеральный директор"
     }
   },
   {
     "model": "projects.department",
     "pk": 2,
     "fields": {
-      "name": "Frontend"
+      "name": "Главный бухгалтер"
     }
   },
   {
     "model": "projects.department",
     "pk": 3,
     "fields": {
-      "name": "Mobile Development"
+      "name": "Главный бухгалтер регионов"
     }
   },
   {
     "model": "projects.department",
     "pk": 4,
     "fields": {
-      "name": "DevOps"
+      "name": "Главный бухгалтер Дальневосточного Федерального округа"
     }
   },
   {
     "model": "projects.department",
     "pk": 5,
     "fields": {
-      "name": "Quality Assurance (QA)"
+      "name": "Главный бухгалтер Сибирского Федерального округа"
     }
   },
   {
     "model": "projects.department",
     "pk": 6,
     "fields": {
-      "name": "UI/UX Design"
+      "name": "Главный бухгалтер Южного Федерального округа"
     }
   },
   {
     "model": "projects.department",
     "pk": 7,
     "fields": {
-      "name": "Product Management"
+      "name": "Главный бухгалтер Уральского Федерального округа"
     }
   },
   {
     "model": "projects.department",
     "pk": 8,
     "fields": {
-      "name": "Project Management"
+      "name": "Финансовый аналитик"
     }
   },
   {
     "model": "projects.department",
     "pk": 9,
     "fields": {
-      "name": "Data Science/Analytics"
+      "name": "Заместитель главного бухгалтера"
     }
   },
   {
     "model": "projects.department",
     "pk": 10,
     "fields": {
-      "name": "Security"
+      "name": "Главный менеджер по продажам и закупкам"
     }
   },
   {
     "model": "projects.department",
     "pk": 11,
     "fields": {
-      "name": "Database Administration (DBA)"
+      "name": "Заместитель главного менеджера по продажам и закупкам"
     }
   },
   {
     "model": "projects.department",
     "pk": 12,
     "fields": {
-      "name": "Infrastructure/IT Operations"
+      "name": "Менеджер по продажам и закупкам"
     }
   },
   {
     "model": "projects.department",
     "pk": 13,
     "fields": {
-      "name": "Technical Support"
+      "name": "Старший менеджер по продажам и закупкам"
     }
   },
   {
     "model": "projects.department",
     "pk": 14,
     "fields": {
-      "name": "Business Analysis"
+      "name": "Заместитель генерального директора"
     }
   },
   {
     "model": "projects.department",
     "pk": 15,
     "fields": {
-      "name": "Software Architecture"
+      "name": "Инженер"
     }
   },
   {
     "model": "projects.department",
     "pk": 16,
     "fields": {
-      "name": "Network Engineering"
+      "name": "Техник"
     }
   },
   {
     "model": "projects.department",
     "pk": 17,
     "fields": {
-      "name": "System Administration"
+      "name": "Менеджер по подбору персонала"
     }
   },
   {
     "model": "projects.department",
     "pk": 18,
     "fields": {
-      "name": "Cloud Engineering"
+      "name": "Backend"
     }
   },
   {
     "model": "projects.department",
     "pk": 19,
     "fields": {
-      "name": "Customer Success"
+      "name": "Frontend"
     }
   },
   {
     "model": "projects.department",
     "pk": 20,
     "fields": {
-      "name": "Research and Development (R&D)"
+      "name": "Mobile Development"
     }
   },
   {
     "model": "projects.department",
     "pk": 21,
     "fields": {
-      "name": "API Development"
+      "name": "DevOps"
     }
   },
   {
     "model": "projects.department",
     "pk": 22,
     "fields": {
-      "name": "Embedded Systems Development"
+      "name": "Quality Assurance (QA)"
     }
   },
   {
     "model": "projects.department",
     "pk": 23,
     "fields": {
-      "name": "Game Development"
+      "name": "UI/UX Design"
     }
   },
   {
     "model": "projects.department",
     "pk": 24,
     "fields": {
-      "name": "Artificial Intelligence/Machine Learning"
+      "name": "Product Management"
     }
   },
   {
     "model": "projects.department",
     "pk": 25,
     "fields": {
-      "name": "IT Compliance and Governance"
+      "name": "Project Management"
     }
   },
   {
     "model": "projects.department",
     "pk": 26,
     "fields": {
-      "name": "Sales Engineering"
+      "name": "Data Science/Analytics"
     }
   },
   {
     "model": "projects.department",
     "pk": 27,
     "fields": {
-      "name": "Technical Writing"
+      "name": "Security"
     }
   },
   {
     "model": "projects.department",
     "pk": 28,
     "fields": {
-      "name": "Localization and Internationalization"
+      "name": "Database Administration (DBA)"
     }
   },
   {
     "model": "projects.department",
     "pk": 29,
     "fields": {
-      "name": "Blockchain Development"
+      "name": "Infrastructure/IT Operations"
     }
   },
   {
     "model": "projects.department",
     "pk": 30,
+    "fields": {
+      "name": "Technical Support"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 31,
+    "fields": {
+      "name": "Business Analysis"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 32,
+    "fields": {
+      "name": "Software Architecture"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 33,
+    "fields": {
+      "name": "Network Engineering"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 34,
+    "fields": {
+      "name": "System Administration"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 35,
+    "fields": {
+      "name": "Cloud Engineering"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 36,
+    "fields": {
+      "name": "Customer Success"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 37,
+    "fields": {
+      "name": "Research and Development (R&D)"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 38,
+    "fields": {
+      "name": "API Development"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 39,
+    "fields": {
+      "name": "Embedded Systems Development"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 40,
+    "fields": {
+      "name": "Game Development"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 41,
+    "fields": {
+      "name": "Artificial Intelligence/Machine Learning"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 42,
+    "fields": {
+      "name": "IT Compliance and Governance"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 43,
+    "fields": {
+      "name": "Sales Engineering"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 44,
+    "fields": {
+      "name": "Technical Writing"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 45,
+    "fields": {
+      "name": "Localization and Internationalization"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 46,
+    "fields": {
+      "name": "Blockchain Development"
+    }
+  },
+  {
+    "model": "projects.department",
+    "pk": 47,
     "fields": {
       "name": "Robotics Development"
     }
