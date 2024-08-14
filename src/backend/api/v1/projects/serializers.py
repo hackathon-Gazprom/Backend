@@ -229,6 +229,7 @@ class MemberTeamSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "user_id",
+            "parent_id",
             "image",
             "subordinates",
             "without_parent",
@@ -250,7 +251,13 @@ class TeamDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
-        fields = ("id", "name", "owner", "description", "employees")
+        fields = (
+            "id",
+            "name",
+            "owner",
+            "description",
+            "employees",
+        )
 
     @swagger_serializer_method(serializer_or_field=MemberTeamSerializer)
     def get_employees(self, obj):
