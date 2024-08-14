@@ -3,80 +3,88 @@
     "model": "projects.team",
     "pk": 1,
     "fields": {
-      "name": "Команда ГазпромТех",
-      "owner_id": 8
+      "name": "Структура организации",
+      "owner_id": 1
     }
   },
   {
     "model": "projects.team",
     "pk": 2,
     "fields": {
-      "name": "Команда ГазИнновации",
-      "owner_id": 14
+      "name": "Команда ГазпромТех",
+      "owner_id": 47
     }
   },
   {
     "model": "projects.team",
     "pk": 3,
     "fields": {
-      "name": "Команда ГазпромПроект",
-      "owner_id": 3
+      "name": "Команда ГазИнновации",
+      "owner_id": 70
     }
   },
   {
     "model": "projects.team",
     "pk": 4,
     "fields": {
-      "name": "Команда ГазТехнологии",
-      "owner_id": 20
+      "name": "Команда ГазпромПроект",
+      "owner_id": 33
     }
   },
   {
     "model": "projects.team",
     "pk": 5,
     "fields": {
-      "name": "Команда ЭнергияГаз",
-      "owner_id": 42
+      "name": "Команда ГазТехнологии",
+      "owner_id": 62
     }
   },
   {
     "model": "projects.team",
     "pk": 6,
     "fields": {
-      "name": "Команда ГазИнфо",
-      "owner_id": 8
+      "name": "Команда ЭнергияГаз",
+      "owner_id": 66
     }
   },
   {
     "model": "projects.team",
     "pk": 7,
     "fields": {
-      "name": "Команда ГазЭволюция",
-      "owner_id": 21
+      "name": "Команда ГазИнфо",
+      "owner_id": 53
     }
   },
   {
     "model": "projects.team",
     "pk": 8,
     "fields": {
-      "name": "Команда ГазСистемы",
-      "owner_id": 49
+      "name": "Команда ГазЭволюция",
+      "owner_id": 32
     }
   },
   {
     "model": "projects.team",
     "pk": 9,
     "fields": {
-      "name": "Команда ГазИнтеграция",
-      "owner_id": 37
+      "name": "Команда ГазСистемы",
+      "owner_id": 70
     }
   },
   {
     "model": "projects.team",
     "pk": 10,
     "fields": {
+      "name": "Команда ГазИнтеграция",
+      "owner_id": 62
+    }
+  },
+  {
+    "model": "projects.team",
+    "pk": 11,
+    "fields": {
       "name": "Команда ГазПрофи",
-      "owner_id": 25
+      "owner_id": 44
     }
   }
 ]
