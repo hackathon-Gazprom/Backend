@@ -1,3 +1,5 @@
+import random
+
 from django.core.cache import cache
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
@@ -18,6 +20,7 @@ from .filters import MemberFilter
 from .paginations import MemberPagination
 from .permissions import OwnerOrAdminPermission
 from .serializers import (
+    MemberCreateSerializer,
     MemberSerializer,
     MemberTreeSerializer,
     ProjectGetSerializer,
@@ -153,6 +156,20 @@ class TeamViewSet(ReadOnlyModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
+        return Response({"message": "ok"})
+
+    @action(
+        detail=True,
+        methods=["post"],
+        permission_classes=[OwnerOrAdminPermission],
+    )
+    def member(self, request, *args, **kwargs):
+        serializer = MemberCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        team = self.get_object()
+        # TODO: затычка `department=random.randrange(1, 10)`
+        #  в дальнейшем продумать в какой момент выбирается отдел
+        serializer.save(team=team, department=random.randrange(1, 10))
         return Response({"message": "ok"})
 
 

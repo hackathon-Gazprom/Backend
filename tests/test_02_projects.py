@@ -131,7 +131,3 @@ def test_delete_team_from_project(
     )
     assert response.status_code == expected_status
     assert test_project.teams.count() == teams_count - expected_change
-
-
-def test_change_project_owner():
-    pass  # TODO: check change owner

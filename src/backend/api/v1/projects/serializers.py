@@ -201,6 +201,22 @@ class MemberSerializer(serializers.ModelSerializer):
         return obj.user.full_name()
 
 
+class MemberCreateSerializer(serializers.ModelSerializer):
+    """Сериалайзер для добавления пользователя в команду"""
+
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), source="user"
+    )
+    parent_id = serializers.PrimaryKeyRelatedField(
+        queryset=Member.objects.all(), source="parent"
+    )
+
+    class Meta:
+        model = Member
+        fields = ("team", "user_id", "parent_id")
+        read_only_fields = ("team",)
+
+
 class MemberTeamSerializer(serializers.ModelSerializer):
     """Сериалайзер для отображения структуры команды"""
 
@@ -246,6 +262,8 @@ class TeamDetailSerializer(serializers.ModelSerializer):
             max_deep = MAX_DEEP_SUBORDINATES
         else:
             max_deep = min(max(1, max_deep), MAX_DEEP_SUBORDINATES)
+
+        print(obj, obj.id, obj.owner, obj.owner.id)
 
         supervisor = (
             Member.objects.select_related("user")
@@ -322,3 +340,7 @@ def get_tree(children, owner, max_deep, serializer):
     res[SUBORDINATES] = tree[owner.id]
     res[WITHOUT_PARENT] = tree[None]
     return res
+
+
+# todo: создать первую команду, исключить ее из команд
+# todo: из конструктора команды исключить людей состоящих в команде

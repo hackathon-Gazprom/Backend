@@ -130,8 +130,8 @@ def test_team(admin_user, test_departments, test_project):
         name="test_team", description="description", owner=admin_user
     )
     ProjectTeam.objects.create(team=team, project=test_project)
-    Member.objects.create(team=team, user=admin_user, department_id=1)
-    return team
+    member = Member.objects.create(team=team, user=admin_user, department_id=1)
+    return team, member
 
 
 @pytest.fixture
