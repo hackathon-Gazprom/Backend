@@ -3,7 +3,7 @@ import random
 from django.core.cache import cache
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import filters, status
+from rest_framework import filters, mixins, status
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import (
@@ -27,6 +27,7 @@ from .serializers import (
     ProjectSerializer,
     ProjectStatusSerializer,
     ProjectTeamUpdateSerializer,
+    TeamCreateSerializer,
     TeamDetailSerializer,
     TeamSerializer,
 )
@@ -108,7 +109,7 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
         ]
 
 
-class TeamViewSet(ReadOnlyModelViewSet):
+class TeamViewSet(mixins.CreateModelMixin, ReadOnlyModelViewSet):
     queryset = Team.objects.all()
     filter_backends = [filters.SearchFilter]
     search_fields = ("name",)
@@ -117,6 +118,8 @@ class TeamViewSet(ReadOnlyModelViewSet):
     def get_serializer_class(self):
         if self.action == "retrieve":
             return TeamDetailSerializer
+        elif self.action == "create":
+            return TeamCreateSerializer
         return TeamSerializer
 
     def get_queryset(self):
