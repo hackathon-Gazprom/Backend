@@ -23,7 +23,7 @@ User = get_user_model()
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    """Сериалайзер профиля"""
+    """Сериалайзер для отображения профиля"""
 
     class Meta:
         model = Profile
@@ -38,10 +38,65 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class UserFullNameMixin:
+    """Миксин для ФИО"""
+
     full_name = serializers.SerializerMethodField(read_only=True)
 
     def get_full_name(self, obj):
         return obj.full_name()
+
+
+class AvatarUserSerializer(serializers.ModelSerializer):
+    """Сериалайзер для смены аватара"""
+
+    image = Base64ImageField()
+
+    class Meta:
+        model = User
+        fields = ("image",)
+
+
+class UserListSerializer(UserFullNameMixin, serializers.ModelSerializer):
+    """Сериалайзер для списка пользователей"""
+
+    position = serializers.CharField(source="profile.position", read_only=True)
+    department = serializers.CharField(default="")
+
+    class Meta:
+        model = User
+        fields = (
+            "full_name",
+            "position",
+            "department",
+        )
+
+    def get_full_name(self, obj):
+        return obj.full_name()
+
+
+class UserDetailSerializer(UserFullNameMixin, serializers.ModelSerializer):
+    """Сериалайзер пользователя"""
+
+    profile = ProfileSerializer()
+    projects = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "full_name",
+            "image",
+            "profile",
+            "projects",
+        )
+
+    def get_projects(self, user):
+        projects = Project.objects.filter(
+            teams__in=Member.objects.filter(user=user).values_list(
+                "team_id", flat=True
+            )
+        ).only("id", "name")
+        return ProjectShortSerializer(projects, many=True).data
 
 
 class UserSerializer(UserFullNameMixin, serializers.ModelSerializer):
@@ -59,7 +114,38 @@ class UserSerializer(UserFullNameMixin, serializers.ModelSerializer):
         )
 
 
+class UserCreateSerializer(serializers.ModelSerializer):
+    """Сериалайзер создания пользователя"""
+
+    password = serializers.CharField(
+        style={"input_type": "password"}, write_only=True
+    )
+
+    class Meta:
+        model = User
+        fields = ("email", "password")
+
+    def validate(self, attrs):
+        user = User(**attrs)
+        password = attrs.get("password")
+
+        try:
+            validate_password(password, user)
+        except exceptions.ValidationError as e:
+            serializer_error = serializers.as_serializer_error(e)
+            raise serializers.ValidationError(
+                {"password": serializer_error["non_field_errors"]}
+            )
+
+        return attrs
+
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
+
+
 class UserMeSerializer(UserFullNameMixin, serializers.ModelSerializer):
+    """Сериализатор для отображения собственной информации пользователя"""
+
     profile = ProfileSerializer()
     projects = serializers.SerializerMethodField()
 
@@ -84,24 +170,6 @@ class UserMeSerializer(UserFullNameMixin, serializers.ModelSerializer):
             )
             cache.set(CacheKey.MY_PROJECTS.format(user_id=obj.id), my_projects)
         return sorted(my_projects)
-
-
-class UserListSerializer(UserFullNameMixin, serializers.ModelSerializer):
-    """Сериалайзер для списка пользователей"""
-
-    position = serializers.CharField(source="profile.position", read_only=True)
-    department = serializers.CharField(default="")
-
-    class Meta:
-        model = User
-        fields = (
-            "full_name",
-            "position",
-            "department",
-        )
-
-    def get_full_name(self, obj):
-        return obj.full_name()
 
 
 class UserProfileUpdateSerializer(serializers.ModelSerializer):
@@ -155,67 +223,3 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         return UserSerializer(instance, context=self.context).data
-
-
-class UserCreateSerializer(serializers.ModelSerializer):
-    """Сериалайзер создания пользователя"""
-
-    password = serializers.CharField(
-        style={"input_type": "password"}, write_only=True
-    )
-
-    class Meta:
-        model = User
-        fields = ("email", "password")
-
-    def validate(self, attrs):
-        user = User(**attrs)
-        password = attrs.get("password")
-
-        try:
-            validate_password(password, user)
-        except exceptions.ValidationError as e:
-            serializer_error = serializers.as_serializer_error(e)
-            raise serializers.ValidationError(
-                {"password": serializer_error["non_field_errors"]}
-            )
-
-        return attrs
-
-    def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
-
-
-class AvatarUserSerializer(serializers.ModelSerializer):
-    """Сериалайзер для смены аватара"""
-
-    image = Base64ImageField()
-
-    class Meta:
-        model = User
-        fields = ("image",)
-
-
-class UserDetailSerializer(UserFullNameMixin, serializers.ModelSerializer):
-    """Сериалайзер пользователя"""
-
-    profile = ProfileSerializer()
-    projects = serializers.SerializerMethodField(read_only=True)
-
-    class Meta:
-        model = User
-        fields = (
-            "email",
-            "full_name",
-            "image",
-            "profile",
-            "projects",
-        )
-
-    def get_projects(self, user):
-        projects = Project.objects.filter(
-            teams__in=Member.objects.filter(user=user).values_list(
-                "team_id", flat=True
-            )
-        ).only("id", "name")
-        return ProjectShortSerializer(projects, many=True).data

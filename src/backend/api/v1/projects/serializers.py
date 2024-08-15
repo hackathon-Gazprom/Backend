@@ -7,11 +7,8 @@ from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
 
 from api.fields import Base64ImageField
-from api.v1.projects.constants import (
-    MAX_DEEP_SUBORDINATES,
-    SUBORDINATES,
-    WITHOUT_PARENT,
-)
+from api.v1.projects.constants import MAX_DEEP_SUBORDINATES
+from api.v1.projects.utils import get_tree
 from apps.general.constants import CacheKey
 from apps.projects.constants import GREATER_THAN_ENDED_DATE, LESS_THAN_TODAY
 from apps.projects.models import Member, Project, Team
@@ -20,6 +17,8 @@ User = get_user_model()
 
 
 class ProjectShortSerializer(serializers.ModelSerializer):
+    """Сериализатор для отображения проектов"""
+
     class Meta:
         model = Project
         fields = (
@@ -29,11 +28,62 @@ class ProjectShortSerializer(serializers.ModelSerializer):
 
 
 class TeamShortSerializer(serializers.ModelSerializer):
+    """Сериализатор для отображения команд"""
+
     class Meta:
         model = Team
         fields = (
             "id",
             "name",
+        )
+
+
+class MemberTeamSerializer(serializers.ModelSerializer):
+    """Сериалайзер для отображения структуры команды"""
+
+    image = Base64ImageField(source="user.image")
+    subordinates = serializers.ListField(read_only=True)
+    without_parent = serializers.ListField(read_only=True)
+    full_name = serializers.SerializerMethodField(read_only=True)
+    department = serializers.SlugRelatedField(
+        slug_field="name", read_only=True
+    )
+    position = serializers.CharField(
+        source="user.profile.position", read_only=True
+    )
+
+    class Meta:
+        model = Member
+        fields = (
+            "id",
+            "user_id",
+            "parent_id",
+            "full_name",
+            "department",
+            "position",
+            "image",
+            "subordinates",
+            "without_parent",
+        )
+
+    def get_full_name(self, obj):
+        return obj.user.full_name()
+
+
+class ProjectGetSerializer(serializers.ModelSerializer):
+    """Сериализатор для получения проекта(ов)"""
+
+    teams = TeamShortSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Project
+        fields = (
+            "id",
+            "name",
+            "description",
+            "teams",
+            "started",
+            "ended",
         )
 
 
@@ -90,6 +140,19 @@ class ProjectSerializer(serializers.ModelSerializer):
         return instance
 
 
+class ProjectTeamUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для отображения в свагере необходимых полей
+    при изменении или удалении команды
+    """
+
+    team_id = serializers.PrimaryKeyRelatedField(queryset=Team.objects)
+
+    class Meta:
+        model = Project
+        fields = ("id", "team_id")
+
+
 class ProjectStatusSerializer(serializers.ModelSerializer):
     """Сериалайзер для смены статуса"""
 
@@ -103,7 +166,33 @@ class ProjectStatusSerializer(serializers.ModelSerializer):
         )
 
 
+class MemberSerializer(serializers.ModelSerializer):
+    """Сериалайзер сотрудников"""
+
+    department = serializers.SlugRelatedField(
+        slug_field="name", read_only=True
+    )
+    full_name = serializers.SerializerMethodField(read_only=True)
+    position = serializers.CharField(
+        source="user.profile.position", read_only=True
+    )
+
+    class Meta:
+        model = Member
+        fields = (
+            "id",
+            "full_name",
+            "department",
+            "position",
+        )
+
+    def get_full_name(self, obj):
+        return obj.user.full_name()
+
+
 class MemberTreeSerializer(serializers.ModelSerializer):
+    """Сериализатор изменения позиции участника команды"""
+
     member_id = serializers.PrimaryKeyRelatedField(queryset=Member.objects)
     parent_id = serializers.PrimaryKeyRelatedField(queryset=Member.objects)
 
@@ -177,30 +266,6 @@ class MemberTreeSerializer(serializers.ModelSerializer):
         return instance
 
 
-class MemberSerializer(serializers.ModelSerializer):
-    """Сериалайзер сотрудников"""
-
-    department = serializers.SlugRelatedField(
-        slug_field="name", read_only=True
-    )
-    full_name = serializers.SerializerMethodField(read_only=True)
-    position = serializers.CharField(
-        source="user.profile.position", read_only=True
-    )
-
-    class Meta:
-        model = Member
-        fields = (
-            "id",
-            "full_name",
-            "department",
-            "position",
-        )
-
-    def get_full_name(self, obj):
-        return obj.user.full_name()
-
-
 class MemberCreateSerializer(serializers.ModelSerializer):
     """Сериалайзер для добавления пользователя в команду"""
 
@@ -217,25 +282,6 @@ class MemberCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ("team",)
 
 
-class MemberTeamSerializer(serializers.ModelSerializer):
-    """Сериалайзер для отображения структуры команды"""
-
-    image = Base64ImageField(source="user.image")
-    subordinates = serializers.ListField(read_only=True)
-    without_parent = serializers.ListField(read_only=True)
-
-    class Meta:
-        model = Member
-        fields = (
-            "id",
-            "user_id",
-            "parent_id",
-            "image",
-            "subordinates",
-            "without_parent",
-        )
-
-
 class TeamSerializer(serializers.ModelSerializer):
     """Сериалайзер команд"""
 
@@ -247,6 +293,8 @@ class TeamSerializer(serializers.ModelSerializer):
 
 
 class TeamDetailSerializer(serializers.ModelSerializer):
+    """Сериализатор команды"""
+
     employees = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -269,8 +317,6 @@ class TeamDetailSerializer(serializers.ModelSerializer):
             max_deep = MAX_DEEP_SUBORDINATES
         else:
             max_deep = min(max(1, max_deep), MAX_DEEP_SUBORDINATES)
-
-        print(obj, obj.id, obj.owner, obj.owner.id)
 
         supervisor = (
             Member.objects.select_related("user")
@@ -295,58 +341,14 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         return get_tree(children, supervisor, max_deep, MemberTeamSerializer)
 
 
-class ProjectGetSerializer(serializers.ModelSerializer):
-    teams = TeamShortSerializer(many=True, read_only=True)
+class TeamCreateSerializer(serializers.ModelSerializer):
+    """Сериализатор создания команды"""
+
+    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects)
 
     class Meta:
-        model = Project
-        fields = (
-            "id",
-            "name",
-            "description",
-            "teams",
-            "started",
-            "ended",
-        )
-
-
-class ProjectTeamUpdateSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для отображения в свагере необходимых полей
-    при изменении или удалении команды
-    """
-
-    team_id = serializers.PrimaryKeyRelatedField(queryset=Team.objects)
-
-    class Meta:
-        model = Project
-        fields = ("id", "team_id")
-
-
-def get_tree(children, owner, max_deep, serializer):
-    tree = defaultdict(list)
-    nodes = defaultdict(list)
-    for child in children:
-        nodes[child.parent_id].append(child)
-
-    def build_subtree(employee, deep=0):
-        subtree = serializer(employee).data
-        subtree[SUBORDINATES] = []
-        for node in nodes[employee.id]:
-            if deep + 1 >= max_deep:
-                break
-            subtree[SUBORDINATES].append(build_subtree(node, deep=deep + 1))
-        return subtree
-
-    for parent_id in (owner.id, None):  # owner and non parent
-        [
-            tree[parent_id].append(build_subtree(node, 0))
-            for node in nodes[parent_id]
-        ]
-    res = serializer(owner).data
-    res[SUBORDINATES] = tree[owner.id]
-    res[WITHOUT_PARENT] = tree[None]
-    return res
+        model = Team
+        fields = ("id", "name", "owner")
 
 
 # todo: из конструктора команды исключить людей состоящих в команде
