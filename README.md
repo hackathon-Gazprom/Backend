@@ -1,5 +1,8 @@
 # Проект "Gazprom"
 
+Проект представляет собой MVP web-приложение для структурирования организации по проектам и командам. Для удобного
+поиска участников, их статистических данных. Редактирование команд в виде дерева.
+
 [![Code check](https://github.com/hackathon-Gazprom/Backend/actions/workflows/code_check.yml/badge.svg?branch=dev)](https://github.com/hackathon-Gazprom/Backend/actions/workflows/code_check.yml)
 
 ## Стек технологий
