@@ -2,7 +2,7 @@ from django.core.cache import cache
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from ..general.constants import CacheKey
+from apps.general.constants import CacheKey
 from .models import CustomUser, Profile
 
 
@@ -10,10 +10,12 @@ from .models import CustomUser, Profile
 def user_signal(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+    cache.delete(CacheKey.USERS)
 
 
 @receiver(post_save, sender=Profile)
 def profile_after_save(sender, instance, **kwargs):
+    cache.delete(CacheKey.USERS)
     cities = cache.get(CacheKey.CITIES)
     if cities and instance.city:
         cities.add(instance.city)

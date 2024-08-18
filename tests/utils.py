@@ -7,6 +7,7 @@ PROFILE_FIELDS = (
     "time_zone",
 )
 USER_FIELDS = (
+    "id",
     "email",
     "full_name",
     "image",
@@ -20,13 +21,17 @@ USER_DATA = {
 
 
 def check_user_response(json_response, fields=USER_FIELDS):
-    for field in fields:
-        assert field in json_response
+    errors = [field for field in fields if field not in json_response]
+    assert not errors, "Response must contain fields: " + ", ".join(errors)
     assert len(fields) == len(json_response)
 
     profile_response = json_response["profile"]
-    for field in PROFILE_FIELDS:
-        assert field in profile_response
+    profile_errors = [
+        field for field in PROFILE_FIELDS if field not in profile_response
+    ]
+    assert (
+        not profile_errors
+    ), "Profile response must contain fields: " + ", ".join(profile_errors)
     assert len(PROFILE_FIELDS) == len(profile_response)
 
 

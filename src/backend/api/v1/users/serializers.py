@@ -65,6 +65,7 @@ class UserListSerializer(UserFullNameMixin, serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            "id",
             "full_name",
             "position",
             "department",
@@ -83,6 +84,7 @@ class UserDetailSerializer(UserFullNameMixin, serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            "id",
             "email",
             "full_name",
             "image",
@@ -107,6 +109,7 @@ class UserSerializer(UserFullNameMixin, serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            "id",
             "email",
             "full_name",
             "image",
@@ -152,6 +155,7 @@ class UserMeSerializer(UserFullNameMixin, serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            "id",
             "email",
             "full_name",
             "image",

@@ -64,6 +64,16 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
             cache.set(CacheKey.PROJECTS, qs)
         return qs
 
+    def get_object(self):
+        cache_key = CacheKey.PROJECT_BY_ID.format(
+            project_id=self.kwargs.get("pk")
+        )
+        qs = cache.get(cache_key)
+        if qs is None:
+            qs = super().get_object()
+            cache.set(cache_key, qs)
+        return qs
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
@@ -90,6 +100,7 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
         team = get_object_or_404(Team, pk=request.data["team_id"])
         self._remove_cached_users_project(team)
         instance = self.get_object()
+        self._remove_cached_project(instance)
         instance.teams.add(team)
         return Response(ProjectGetSerializer(instance).data)
 
@@ -99,6 +110,7 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
         team = get_object_or_404(Team, pk=request.data["team_id"])
         self._remove_cached_users_project(team)
         instance = self.get_object()
+        self._remove_cached_project(instance)
         instance.teams.remove(team)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -107,6 +119,9 @@ class ProjectViewSet(ListCreateAPIView, RetrieveUpdateAPIView, GenericViewSet):
             cache.delete(CacheKey.MY_PROJECTS.format(user_id=user_id))
             for user_id in team.members.values_list("user_id", flat=True)
         ]
+
+    def _remove_cached_project(self, project):
+        cache.delete(CacheKey.PROJECT_BY_ID.format(project_id=project.id))
 
 
 class TeamViewSet(mixins.CreateModelMixin, ReadOnlyModelViewSet):

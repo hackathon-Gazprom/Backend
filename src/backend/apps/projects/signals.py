@@ -9,6 +9,7 @@ from .models import Member, Project, Team
 @receiver(post_save, sender=Project)
 def project_post_save(sender, instance, created, **kwargs):
     cache.delete(CacheKey.PROJECTS)
+    cache.delete(CacheKey.PROJECT_BY_ID.format(project_id=instance.id))
 
 
 @receiver(post_save, sender=Team)
