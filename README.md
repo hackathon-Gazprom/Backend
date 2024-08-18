@@ -35,6 +35,11 @@
 
 
 ```json
+// админские данные
+{
+  "email": "admin@admin.com",
+  "password": "admin"
+}
 // тестовые данные
 {
   "email": "test@fake.com",
