@@ -1,4 +1,5 @@
 from django.core.cache import cache
+from django.db.models import Q
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, views
 from rest_framework.response import Response
@@ -19,7 +20,10 @@ class FilterViewSet(views.APIView):
         if res is None:
             qs = model.objects
             if exclude is not None:
-                qs = qs.exclude(**exclude)
+                ex = Q()
+                for k, v in exclude.items():
+                    ex |= Q(**{k: v})
+                qs = qs.exclude(ex)
             res = set(qs.values_list(lookup_field, flat=True))
             cache.set(cache_key, res)
         return sorted(res)
@@ -36,8 +40,9 @@ class FilterViewSet(views.APIView):
             "positions",
             lookup_field="position",
             model=Profile,
-            exclude={"position__isnull": True},
+            exclude={"position__isnull": True, "position": ""},
         )
+        print(positions)
         departments = self.get_cached_values(
             "departments",
             lookup_field="name",

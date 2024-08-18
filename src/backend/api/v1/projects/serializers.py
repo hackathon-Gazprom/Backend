@@ -318,26 +318,23 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         else:
             max_deep = min(max(1, max_deep), MAX_DEEP_SUBORDINATES)
 
-        supervisor = (
-            Member.objects.select_related("user")
+        qs = (
+            Member.objects.filter(team=obj)
+            .select_related("user__profile", "department")
             .only(
                 "id",
                 "parent_id",
                 "user_id",
+                "user__first_name",
+                "user__last_name",
+                "user__middle_name",
                 "user__image",
+                "department",
+                "user__profile__position",
             )
-            .get(team=obj, user=obj.owner)
         )
-        children = (
-            Member.objects.filter(team=obj, user__is_active=True)
-            .exclude(id=supervisor.id)
-            .select_related("user")
-        ).only(
-            "id",
-            "parent_id",
-            "user_id",
-            "user__image",
-        )
+        supervisor = qs.get(user=obj.owner)
+        children = qs.exclude(user=obj.owner)
         return get_tree(children, supervisor, max_deep, MemberTeamSerializer)
 
 
