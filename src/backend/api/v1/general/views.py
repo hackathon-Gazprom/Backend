@@ -42,7 +42,6 @@ class FilterViewSet(views.APIView):
             model=Profile,
             exclude={"position__isnull": True, "position": ""},
         )
-        print(positions)
         departments = self.get_cached_values(
             "departments",
             lookup_field="name",
