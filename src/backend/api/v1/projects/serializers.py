@@ -335,7 +335,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         )
         supervisor = qs.get(user=obj.owner)
         children = qs.exclude(user=obj.owner)
-        return get_tree(children, supervisor, max_deep, MemberTeamSerializer)
+        return get_tree(supervisor, children, max_deep, MemberTeamSerializer)
 
 
 class TeamCreateSerializer(serializers.ModelSerializer):
