@@ -169,7 +169,6 @@ class UserMeSerializer(UserFullNameMixin, serializers.ModelSerializer):
             my_projects = set(
                 Team.objects.filter(
                     members__user=obj,
-                    projects__status=Project.Status.STARTED,
                 ).values_list("projects__name", flat=True)
             )
             cache.set(CacheKey.MY_PROJECTS.format(user_id=obj.id), my_projects)
