@@ -28,7 +28,10 @@ class FilterViewSet(views.APIView):
             cache.set(cache_key, res)
         return sorted(res)
 
-    @swagger_auto_schema(responses={200: FilterSerializer()})
+    @swagger_auto_schema(
+        responses={200: FilterSerializer()},
+        security=[],
+    )
     def get(self, request, format=None):
         cities = self.get_cached_values(
             "cities",
