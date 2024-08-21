@@ -65,6 +65,9 @@ source .\venv\Scripts\activate
 # перейти в папку с приложением
 cd .\src\backend\
 
+# сделать миграции
+python manage.py migrate
+
 # заполнить базу данных моковскими данными
 python manage.py add_fake_data
 
