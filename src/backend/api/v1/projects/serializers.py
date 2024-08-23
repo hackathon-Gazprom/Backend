@@ -172,6 +172,7 @@ class MemberSerializer(serializers.ModelSerializer):
     department = serializers.SlugRelatedField(
         slug_field="name", read_only=True
     )
+    image = Base64ImageField(source="user.image")
     full_name = serializers.SerializerMethodField(read_only=True)
     position = serializers.CharField(
         source="user.profile.position", read_only=True
@@ -183,6 +184,7 @@ class MemberSerializer(serializers.ModelSerializer):
             "id",
             "full_name",
             "department",
+            "image",
             "position",
         )
 

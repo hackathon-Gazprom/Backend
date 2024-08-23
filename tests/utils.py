@@ -13,6 +13,7 @@ USER_FIELDS = (
     "image",
     "profile",
 )
+MEMBER_FIELDS = ("id", "full_name", "department", "image", "position")
 USER_PROJECT_FIELDS = USER_FIELDS + ("projects",)
 USER_DATA = {
     "email": "fake1@fake.com",
@@ -21,9 +22,7 @@ USER_DATA = {
 
 
 def check_user_response(json_response, fields=USER_FIELDS):
-    errors = [field for field in fields if field not in json_response]
-    assert not errors, "Response must contain fields: " + ", ".join(errors)
-    assert len(fields) == len(json_response)
+    check_fields(json_response, fields)
 
     profile_response = json_response["profile"]
     profile_errors = [
@@ -33,6 +32,12 @@ def check_user_response(json_response, fields=USER_FIELDS):
         not profile_errors
     ), "Profile response must contain fields: " + ", ".join(profile_errors)
     assert len(PROFILE_FIELDS) == len(profile_response)
+
+
+def check_fields(json_response, fields):
+    errors = [field for field in fields if field not in json_response]
+    assert not errors, "Response must contain fields: " + ", ".join(errors)
+    assert len(fields) == len(json_response)
 
 
 def check_patch_me(json_response, new_data):
