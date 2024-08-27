@@ -62,6 +62,9 @@ git clone git@github.com:hackathon-Gazprom/Backend.git
 python -m venv venv
 source .\venv\Scripts\activate
 
+# установить зависимости
+pip install -r requirements.txt
+
 # перейти в папку с приложением
 cd .\src\backend\
 
